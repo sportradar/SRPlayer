@@ -1,9 +1,11 @@
 // swift-tools-version: 6.2
 import PackageDescription
 
-
-let coreSDKPath = "git@gitlab.sportradar.ag:MobileApps/avplayer/av-player-data-sdk-spm.git"
+let coreSDKUrl = "git@gitlab.sportradar.ag:MobileApps/avplayer/av-player-data-sdk-spm.git"
 let coreSDKVersion : Version = "0.1.0-DEV.400"
+
+let nativeSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/untagged-e9afdc7b56e228a91a23/SRAVPlayerSDK.xcframework.zip"
+let nativeSDKChecksum = "fc55c22e18ef04913ecf418f45d0f2fa033ccaafa97c85a978d983babb4223be"
 
 let package = Package(
     name: "SRAVPlayerSDK",
@@ -15,35 +17,30 @@ let package = Package(
         .visionOS(.v1)
     ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "SRAVPlayerSDK",
-            targets: ["SRAVPlayerSDK"]),
+            targets: ["SRAVPlayerTarget"]
+        ),
     ],
     dependencies: [
-        .package(url: coreSDKPath, exact:coreSDKVersion)
+        .package(url: coreSDKUrl, exact:coreSDKVersion)
     ],
-    
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
+        .binaryTarget(
             name: "SRAVPlayerSDK",
+            url: nativeSDKUrl,
+            checksum: nativeSDKChecksum
+        ),
+        .target(
+            name: "SRAVPlayerTarget",
             dependencies: [
+                .target(name: "SRAVPlayerSDK"),
                 .product(name: "AVPlayerDataSDK", package: "av-player-data-sdk-spm"),
             ],
-            path: "SRAVPlayerSDK/Sources/SRAVPlayer",
-            swiftSettings: [
-                .defaultIsolation(MainActor.self) //https://www.avanderlee.com/concurrency/default-actor-isolation-in-swift-6-2/
-            ]
-        ),
-        .testTarget(
-            name: "SRAVPlayerTests",
-            dependencies: ["SRAVPlayerSDK"],
-            path: "SRAVPlayerSDK/Tests",
             swiftSettings: [
                 .defaultIsolation(MainActor.self)
             ]
-        ),
+        )
     ]
 )
+
