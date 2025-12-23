@@ -4,8 +4,8 @@ import PackageDescription
 let coreSDKUrl = "git@gitlab.sportradar.ag:MobileApps/avplayer/av-player-data-sdk-spm.git"
 let coreSDKVersion : Version = "0.1.0-DEV.400"
 
-let nativeSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/v0.0.4/SRAVPlayerSDK.xcframework.zip"
-let nativeSDKChecksum = "fc55c22e18ef04913ecf418f45d0f2fa033ccaafa97c85a978d983babb4223be"
+let nativeSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/v0.0.5/SRAVPlayerSDK.xcframework.zip"
+let nativeSDKChecksum = "68d4660fdbf778be31ce442ba8d1ec4c98eadf294366cfe6d6e7eb4f90e3ef1a"
 
 let package = Package(
     name: "SRAVPlayerSDK",
