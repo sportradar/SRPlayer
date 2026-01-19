@@ -1,11 +1,11 @@
 // swift-tools-version: 6.2
 import PackageDescription
 
-let coreSDKUrl = "git@gitlab.sportradar.ag:MobileApps/avplayer/av-player-data-sdk-spm.git"
-let coreSDKVersion : Version = "0.1.0-DEV.478"
+let coreSDKUrl = "https://github.com/sportradar/SRPlayer-SDK-Core"
+let coreSDKVersion : Version = "0.1.0"
 
 let nativeSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/1.0.0/SRAVPlayerSDK.xcframework.zip"
-let nativeSDKChecksum = "f0e868c8ea39a4b4f18b16ffabe21c7821dc845ada78e051c96f90ecd5ba488b"
+let nativeSDKChecksum = "d7a2c12c2b29995e036570ea943e540b24e583f42ee629d19d9b9df0addc9ebd"
 
 let package = Package(
     name: "SRAVPlayerSDK",
@@ -35,7 +35,7 @@ let package = Package(
             name: "SRAVPlayerTarget",
             dependencies: [
                 .target(name: "SRAVPlayerSDK"),
-                .product(name: "AVPlayerDataSDK", package: "av-player-data-sdk-spm"),
+                .product(name: "AVPlayerDataSDK", package: "SRPlayer-SDK-Core"),
             ],
             path: "Sources/SRAVPlayerTarget"
         )
