@@ -2,10 +2,10 @@
 import PackageDescription
 
 let coreSDKUrl = "https://github.com/sportradar/SRPlayer-SDK-Core"
-let coreSDKVersion : Version = "0.1.0"
+let coreSDKVersion : Version = "0.2.0"
 
-let nativeSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/1.0.0/SRAVPlayerSDK.xcframework.zip"
-let nativeSDKChecksum = "d7a2c12c2b29995e036570ea943e540b24e583f42ee629d19d9b9df0addc9ebd"
+let nativeSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/1.0.1/SRAVPlayerSDK.xcframework.zip"
+let nativeSDKChecksum = "493fb799a29ea291bbac28185905a18e3d816b10009ed7edc5181d4fb80c6d19"
 
 let package = Package(
     name: "SRAVPlayerSDK",
