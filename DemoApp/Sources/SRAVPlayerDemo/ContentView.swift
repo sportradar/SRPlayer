@@ -21,6 +21,7 @@ struct DemoSettings {
     }
 }
 
+//MARK: - Content View
 struct ContentView: View {
     @State private var viewModel: SRAVPlayerViewModel?
     let settings: SRAVPlayerSettingsModel
