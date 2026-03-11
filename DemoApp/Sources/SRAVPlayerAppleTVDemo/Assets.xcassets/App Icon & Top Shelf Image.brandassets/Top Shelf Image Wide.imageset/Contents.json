@@ -1,0 +1,18 @@
+{
+  "images" : [
+    {
+      "filename" : "tvOSAppIconTopShelfWide.jpg",
+      "idiom" : "tv",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "tvOSAppIconTopShelfWide2.jpg",
+      "idiom" : "tv",
+      "scale" : "2x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
