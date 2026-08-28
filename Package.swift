@@ -11,7 +11,7 @@ let chromecastSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download
 let chromecastSDKChecksum = "edaf6165677fb1c214b18041a3b569df633d318d1f4a4701cbd08268a2fe5309"
 
 let googleCastUrl = "https://github.com/sportradar/SRPlayer/releases/download/1.0.1/GoogleCast.xcframework.zip"
-let googleCastChecksum = "9a3c29411fd0d6030a1e218652b49331cfd91ee5d22da5edb13cd9dd87ac224d"
+let googleCastChecksum = "0f04603d36a43f4f561d4d54783e2b8ca52da9fc58e47fe1fc4bfc43e935701e"
 
 let package = Package(
     name: "SRAVPlayerSDK",
