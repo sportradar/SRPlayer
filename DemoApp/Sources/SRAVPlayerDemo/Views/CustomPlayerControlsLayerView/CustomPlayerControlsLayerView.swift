@@ -8,25 +8,49 @@
 import SwiftUI
 import SRAVPlayerSDK
 
-struct CustomPlayerControlsLayerView: View {
+struct CustomPlayerControlsLayerView<
+    ControlsContent: PlayerControls,
+    TopStartButtonConfiguration: PlayerTopStartButtonConfiguration
+>: View {
     @State private var showingConfirmationDialog = false
   
-    @ObservedObject private var viewModel: SRAVOverlayLayerViewModel
+    private let coordinator: ControlsOverlayCoordinator
+    private let playerControls: ControlsContent
+    private let playerTopStartButtonConfiguration: TopStartButtonConfiguration
+    private let pictureInPicture: PictureInPicture?
     
-    init(viewModel: SRAVOverlayLayerViewModel) {
-        self.viewModel = viewModel
+    private var controlsConfiguration: PlaybackControlsConfiguration {
+        return coordinator.assetConfiguration?.playbackUiConfiguration ?? .default
+    }
+    
+    init(
+        coordinator: ControlsOverlayCoordinator,
+        playerControls: ControlsContent,
+        playerTopStartButtonConfiguration: TopStartButtonConfiguration,
+        pictureInPicture: PictureInPicture? = nil
+    ) {
+        self.coordinator = coordinator
+        self.playerControls = playerControls
+        self.playerTopStartButtonConfiguration = playerTopStartButtonConfiguration
+        self.pictureInPicture = pictureInPicture
     }
     
     var body: some View {
         ZStack {
             VStack {
-                HStack {
+                HStack(spacing: 14) {
+                    PlayerTopStartButton(
+                        playerControls: playerControls,
+                        playerTopStartButtonConfiguration: playerTopStartButtonConfiguration,
+                        pictureInPicture: pictureInPicture,
+                        isPictureInPictureEnabled: controlsConfiguration.pictureInPicture
+                    )
+
                     Text("Video Title")
                         .foregroundColor(.white)
                         .font(.headline)
                         .lineLimit(2)
-                    
-                    Spacer()
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     
                     HStack(spacing: 14) {
                         Button(action: {
@@ -52,11 +76,6 @@ struct CustomPlayerControlsLayerView: View {
                             }
                         }).foregroundStyle(.white)
 
-                        
-//                        if let pipController = viewModel.pictureInPicture {
-//                            PiPButton(controller: pipController)
-//                                .foregroundColor(.white)
-//                        }
                     }
                 }
                 .padding(.horizontal)
@@ -64,15 +83,14 @@ struct CustomPlayerControlsLayerView: View {
                 
                 Spacer()
             }
-            
-            if viewModel.isLoading {
+            if coordinator.controlUIState.isBuffering {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                     .frame(width: 50, height: 50)
             } else {
                 // Center Controls: Play/Pause
-                Button(action: { viewModel.togglePlayPause() }) {
-                    let text = viewModel.controlState?.playPauseButton.state == .paused ? "Play" : "Pause"
+            Button(action: { coordinator.onInteraction(.playPauseToggle) }) {
+                let text = coordinator.controlUIState.playPauseButtonState == .paused ? "Play" : "Pause"
                     Text(text)
                         .frame(width: 50, height: 59)
                         .foregroundStyle(.white)
@@ -85,17 +103,7 @@ struct CustomPlayerControlsLayerView: View {
                     
                 }.buttonStyle(.plain)
             }
-            
-            //Bottom Controls view
-//            VStack {
-//                Spacer()
-//                PlayerControlViewBottom().environmentObject(viewModel)
-//            }            
         }
         .background(Color.black.opacity(0.4))
     }
-}
-
-#Preview {
-    CustomPlayerControlsLayerView(viewModel: SRAVOverlayLayerViewModel())
 }

@@ -6,27 +6,27 @@
 //
 
 import SwiftUI
-import AVPlayerDataSDK
+import SRAVPlayerSDK
 
 @main
 struct SRAVPlayerAppleTVDemoApp: App {
+    private let playerSDK : SRAVPlayer
+    
+    init () {
+        playerSDK = SRAVPlayer.Builder()
+            .setLicenseKey("YOUR_LICENSE_KEY")
+            .setClientId(12345)
+            .setLocalization("de-DE")
+            //.setAnalyticsProvider(DemoAnalyticsProvider())
+            .setLoggerConfiguration(LoggerConfiguration(minLogLevel: .debug))
+            .setModule(DirectModuleFactory())
+            .build()
+    }
+    
     var body: some Scene {
         WindowGroup {
             SettingsView()
-                .onAppear() {
-                    Task {
-                        let customAnalyticsProvider = CustomAnalyticsProvider()
-                        let loggingConfiguration = LoggerConfiguration(minLogLevel: .verbose)
-                        
-                        SRAVPlayer.Builder()
-                            .setClientId(clientId: 123)
-                            .setLicenseKey(licenseKey: "ag.sportradar.Demo")
-                            .setLoggerProvider(loggerConfiguration: loggingConfiguration)
-                            .setAnalyticsProvider(analyticsProvider: customAnalyticsProvider)
-                            .buildSRAVPlayerSdk()
-                    }
-
-                }
+                .environment(\.playerSDK, playerSDK)
         }
     }
 }

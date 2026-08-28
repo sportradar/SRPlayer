@@ -29,17 +29,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func setupPlayerSDK() {
-        Task {
-            let customAnalyticsProvider = CustomAnalyticsProvider()
-            let loggingConfiguration = LoggerConfiguration(minLogLevel: .verbose)
-            
-            SRAVPlayer.Builder()
-                .setClientId(clientId: 123)
-                .setLicenseKey(licenseKey: "ag.sportradar.Demo")
-                .setLoggerProvider(loggerConfiguration: loggingConfiguration)
-                .setAnalyticsProvider(analyticsProvider: customAnalyticsProvider)
-                .buildSRAVPlayerSdk()
-        }
+        let playerSDK = SRAVPlayer.Builder()
+            .setLicenseKey("YOUR_LICENSE_KEY")
+            .setClientId(12345)
+            .setLocalization("de-DE")
+            .setLoggerConfiguration(LoggerConfiguration(minLogLevel: .debug))
+            .setModule(DirectModuleFactory())
+            .build()
+        PlayerService.instance.bind(playerSDK: playerSDK)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

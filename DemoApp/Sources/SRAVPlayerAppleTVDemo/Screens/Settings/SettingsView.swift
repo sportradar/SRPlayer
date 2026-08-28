@@ -10,20 +10,20 @@ import SRAVPlayerSDK
 
 struct SettingsView: View {
     @State private var path: [Int] = []
-    @State private var selectedStreamState: StreamSource = .invalid
+    @State private var selectedStreamState: DemoStreamOption = StreamSource.defaultStream
     private let userDefaults = UserDefaults.standard
 
-    private enum UserDefaultsSRAVDemoKeys: String { case inlineModeForcesRotationToPortrait, fullScreenRotatesToLandscape, exitFullscreenWhenDeviceRotatesToPortrait, enterFullscreenWhenDeviceRotatesToLandscape, playerShouldDefaultToFullscreenOnAppear, videoShouldAutoStart, useCustomControlContentProvider, useCustomPlayerControlsLayerView, useCustomErrorLayerView, useCustomLoadingLayerView, useCustomCompleteLayerView, showThemeComparison, forcePlayerError, hideControls, hideSlider, hidePlayPauseToggle, hideTitle, hidePictureInPicture, hideSettingsMenu, hideFullscreenToggle, hideRemotePlayback, selectedStream }
+    private enum UserDefaultsSRAVDemoKeys: String { case inlineModeForcesRotationToPortrait, allowRotationToLandscape, exitFullscreenWhenDeviceRotatesToPortrait, enterFullscreenOnLandscapeRotation, playerShouldDefaultToFullscreenOnAppear, videoShouldAutoStart, useCustomPlayerControls, useCustomPlayerControlsLayerView, useCustomErrorLayerView, useCustomLoadingLayerView, useCustomCompleteLayerView, showThemeComparison, forcePlayerError, hideControls, hideSlider, hidePlayPauseToggle, hideTitle, hidePictureInPicture, hideSettingsMenu, hideFullscreenToggle, hideRemotePlayback, selectedStream }
     
     
     /* Setting toggles. */
     @State private var inlineModeForcesRotationToPortrait = false
-    @State private var fullScreenRotatesToLandscape = false
+    @State private var allowRotationToLandscape = false
     @State private var exitFullscreenWhenDeviceRotatesToPortrait = false
-    @State private var enterFullscreenWhenDeviceRotatesToLandscape = false
+    @State private var enterFullscreenOnLandscapeRotation = false
     @State private var playerShouldDefaultToFullscreenOnAppear = false
     @State private var videoShouldAutoStart = false
-    @State private var useCustomControlContentProvider = false
+    @State private var useCustomPlayerControls = false
     @State private var useCustomPlayerControlsLayerView = false
     @State private var useCustomErrorLayerView = false
     @State private var useCustomLoadingLayerView = false
@@ -51,16 +51,16 @@ struct SettingsView: View {
                 .padding()
                 .navigationDestination(for: Int.self) { _ in
                     /* Handle settings. */
-                    let sRAVPlayerSettingsModel =
-                    SRAVPlayerSettingsModel(
-                        playerType: ((getVal(forKey: .playerShouldDefaultToFullscreenOnAppear)) ? .presentation : .inline),
+                    let orientationConfiguration =
+                    PlayerOrientationConfiguration(
+                        startInFullscreen: getVal(forKey: .playerShouldDefaultToFullscreenOnAppear),
                         inlineModeForcesRotationToPortrait: getVal(forKey: .inlineModeForcesRotationToPortrait),
-                        fullScreenRotatesToLandscape: getVal(forKey: .fullScreenRotatesToLandscape),
+                        allowRotationToLandscape: getVal(forKey: .allowRotationToLandscape),
                         exitFullscreenWhenDeviceRotatesToPortrait: getVal(forKey: .exitFullscreenWhenDeviceRotatesToPortrait),
-                        enterFullscreenWhenDeviceRotatesToLandscape: getVal(forKey: .enterFullscreenWhenDeviceRotatesToLandscape))
+                        enterFullscreenOnLandscapeRotation: getVal(forKey: .enterFullscreenOnLandscapeRotation))
                     
                     let demoSettings = DemoSettings(themeComparison: getVal(forKey: .showThemeComparison), forcePlayerError: getVal(forKey: .forcePlayerError), autoplay: getVal(forKey: .videoShouldAutoStart))
-                    let customLayerSettings = SettingsModel(useCustomControlContentProvider: getVal(forKey: .useCustomControlContentProvider),
+                    let customLayerSettings = SettingsModel(useCustomPlayerControls: getVal(forKey: .useCustomPlayerControls),
                                                             useCustomPlayerControlsLayerView: getVal(forKey: .useCustomPlayerControlsLayerView),
                                                             useCustomErrorLayerView: getVal(forKey: .useCustomErrorLayerView),
                                                             useCustomLoadingLayerView: getVal(forKey: .useCustomLoadingLayerView),
@@ -73,7 +73,7 @@ struct SettingsView: View {
                                                             hideSettingsMenu: getVal(forKey: .hideSettingsMenu),
                                                             hideFullscreenToggle: getVal(forKey: .hideFullscreenToggle),
                                                             hideRemotePlayback:getVal(forKey: .hideRemotePlayback))
-                    PlayerDetailsView(settings: sRAVPlayerSettingsModel, demoSettings: demoSettings,  customUISettings: customLayerSettings, streamUrl: selectedStreamState.url)
+                    PlayerDetailsView(orientationConfiguration: orientationConfiguration, demoSettings: demoSettings,  customUISettings: customLayerSettings, streamUrl: demoSettings.forcePlayerError ? "https://example.com/video.mp4" : selectedStreamState.url)
                 }
                 .padding(.bottom, 40)
                 
@@ -85,11 +85,11 @@ struct SettingsView: View {
                             },
                             set: { newValue in
                                 selectedStreamState = newValue
-                                store(val: newValue.rawValue , key: .selectedStream)
+                                store(val: newValue.id, key: .selectedStream)
                             }
                         )
                     ) {
-                        ForEach(StreamSource.allCases) { stream in
+                        ForEach(StreamSource.allStreams) { stream in
                             Text(stream.title)
                                 .tag(stream)
                         }
@@ -103,9 +103,9 @@ struct SettingsView: View {
                 VStack(spacing: 20) {
                     Section(header: Text("Full screen transitions")) {
                         Toggle("Inline mode forces rotation to portrait", isOn: $inlineModeForcesRotationToPortrait).onChange(of: inlineModeForcesRotationToPortrait) { val in store(val: val, key: .inlineModeForcesRotationToPortrait)}
-                        Toggle("FullScreen forces rotation to landscape", isOn: $fullScreenRotatesToLandscape).onChange(of: fullScreenRotatesToLandscape) { val in store(val: val, key: .fullScreenRotatesToLandscape)}
+                        Toggle("FullScreen forces rotation to landscape", isOn: $allowRotationToLandscape).onChange(of: allowRotationToLandscape) { val in store(val: val, key: .allowRotationToLandscape)}
                         Toggle("Exit full screen when device orientates to portrait", isOn: $exitFullscreenWhenDeviceRotatesToPortrait).onChange(of: exitFullscreenWhenDeviceRotatesToPortrait) { val in store(val: val, key: .exitFullscreenWhenDeviceRotatesToPortrait)}
-                        Toggle("Enter fullscreen when device rotates to landscape", isOn: $enterFullscreenWhenDeviceRotatesToLandscape).onChange(of: enterFullscreenWhenDeviceRotatesToLandscape) { val in store(val: val, key: .enterFullscreenWhenDeviceRotatesToLandscape)}
+                        Toggle("Enter fullscreen when device rotates to landscape", isOn: $enterFullscreenOnLandscapeRotation).onChange(of: enterFullscreenOnLandscapeRotation) { val in store(val: val, key: .enterFullscreenOnLandscapeRotation)}
                     }
                 }.padding(.bottom, 40)
                 */
@@ -121,7 +121,7 @@ struct SettingsView: View {
                 
                 VStack(spacing: 20) {
                     Section(header: Text("UI Customisation")) {
-                        Toggle("Use custom Control Content (on default layer)", isOn: $useCustomControlContentProvider).onChange(of: useCustomControlContentProvider) { val in store(val: val, key: .useCustomControlContentProvider)}
+                        Toggle("Use custom Player Controls (on default layer)", isOn: $useCustomPlayerControls).onChange(of: useCustomPlayerControls) { val in store(val: val, key: .useCustomPlayerControls)}
                         Toggle("Use custom player controls layer view", isOn: $useCustomPlayerControlsLayerView).onChange(of: useCustomPlayerControlsLayerView) { val in store(val: val, key: .useCustomPlayerControlsLayerView)}
                         Toggle("Use custom error layer view", isOn: $useCustomErrorLayerView).onChange(of: useCustomErrorLayerView) { val in store(val: val, key: .useCustomErrorLayerView)}
                         Toggle("Use custom loading layer view", isOn: $useCustomLoadingLayerView).onChange(of: useCustomLoadingLayerView) { val in store(val: val, key: .useCustomLoadingLayerView)}
@@ -145,16 +145,17 @@ struct SettingsView: View {
                 */
             }
             .onAppear {
-                selectedStreamState = StreamSource(rawValue:getString(forKey: .selectedStream)) ?? .invalid
+                selectedStreamState = StreamSource.stream(id: getString(forKey: .selectedStream))
+                    ?? StreamSource.defaultStream
                 
                 /* Get initial values. */
                 inlineModeForcesRotationToPortrait = getVal(forKey: .inlineModeForcesRotationToPortrait)
-                fullScreenRotatesToLandscape = getVal(forKey: .fullScreenRotatesToLandscape)
+                allowRotationToLandscape = getVal(forKey: .allowRotationToLandscape)
                 exitFullscreenWhenDeviceRotatesToPortrait = getVal(forKey: .exitFullscreenWhenDeviceRotatesToPortrait)
-                enterFullscreenWhenDeviceRotatesToLandscape = getVal(forKey: .enterFullscreenWhenDeviceRotatesToLandscape)
+                enterFullscreenOnLandscapeRotation = getVal(forKey: .enterFullscreenOnLandscapeRotation)
                 playerShouldDefaultToFullscreenOnAppear = getVal(forKey: .playerShouldDefaultToFullscreenOnAppear)
                 videoShouldAutoStart = getVal(forKey: .videoShouldAutoStart)
-                useCustomControlContentProvider = getVal(forKey: .useCustomControlContentProvider)
+                useCustomPlayerControls = getVal(forKey: .useCustomPlayerControls)
                 useCustomPlayerControlsLayerView = getVal(forKey: .useCustomPlayerControlsLayerView)
                 useCustomErrorLayerView = getVal(forKey: .useCustomErrorLayerView)
                 useCustomLoadingLayerView = getVal(forKey: .useCustomLoadingLayerView)
@@ -183,18 +184,17 @@ struct SettingsView: View {
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .navigationDestination(for: Int.self) { _ in
                 /* Handle settings. */
-                let sRAVPlayerSettingsModel =
-                SRAVPlayerSettingsModel(
-                    playerType: ((getVal(forKey: .playerShouldDefaultToFullscreenOnAppear)) ? .presentation : .inline),
+                let orientationConfiguration =
+                PlayerOrientationConfiguration(
+                    startInFullscreen: getVal(forKey: .playerShouldDefaultToFullscreenOnAppear),
                     inlineModeForcesRotationToPortrait: getVal(forKey: .inlineModeForcesRotationToPortrait),
-                    fullScreenRotatesToLandscape: getVal(forKey: .fullScreenRotatesToLandscape),
+                    allowRotationToLandscape: getVal(forKey: .allowRotationToLandscape),
                     exitFullscreenWhenDeviceRotatesToPortrait: getVal(forKey: .exitFullscreenWhenDeviceRotatesToPortrait),
-                    enterFullscreenWhenDeviceRotatesToLandscape: getVal(forKey: .enterFullscreenWhenDeviceRotatesToLandscape),
-                    videoShouldAutoStart: getVal(forKey: .videoShouldAutoStart)
+                    enterFullscreenOnLandscapeRotation: getVal(forKey: .enterFullscreenOnLandscapeRotation)
                 )
                 
                 let demoSettings = DemoSettings(themeComparison: getVal(forKey: .showThemeComparison), forcePlayerError: getVal(forKey: .forcePlayerError))
-                let customLayerSettings = SettingsModel(useCustomControlContentProvider: getVal(forKey: .useCustomControlContentProvider),
+                let customLayerSettings = SettingsModel(useCustomPlayerControls: getVal(forKey: .useCustomPlayerControls),
                                                         useCustomPlayerControlsLayerView: getVal(forKey: .useCustomPlayerControlsLayerView),
                                                         useCustomErrorLayerView: getVal(forKey: .useCustomErrorLayerView),
                                                         useCustomLoadingLayerView: getVal(forKey: .useCustomLoadingLayerView),
@@ -207,7 +207,7 @@ struct SettingsView: View {
                                                         hideSettingsMenu: getVal(forKey: .hideSettingsMenu),
                                                         hideFullscreenToggle: getVal(forKey: .hideFullscreenToggle),
                                                         hideRemotePlayback:getVal(forKey: .hideRemotePlayback))
-                PlayerDetailsView(settings: sRAVPlayerSettingsModel, demoSettings: demoSettings,  customUISettings: customLayerSettings, streamUrl: selectedStreamState.url)
+                PlayerDetailsView(orientationConfiguration: orientationConfiguration, demoSettings: demoSettings,  customUISettings: customLayerSettings, streamUrl: selectedStreamState.url)
             }
             */
         }
@@ -229,7 +229,7 @@ private extension SettingsView {
     }
 
     private func getString(forKey key: UserDefaultsSRAVDemoKeys) -> String {
-        userDefaults.string(forKey: key.rawValue) ?? StreamSource.elephantsDream.rawValue
+        userDefaults.string(forKey: key.rawValue) ?? StreamSource.defaultStream.id
     }
 }
 

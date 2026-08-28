@@ -8,15 +8,15 @@
 import Foundation
 
 enum UserDefaultsSRAVDemoKeys: String, CaseIterable {
-    case inlineModeForcesRotationToPortrait, fullScreenRotatesToLandscape, exitFullscreenWhenDeviceRotatesToPortrait, enterFullscreenWhenDeviceRotatesToLandscape, playerShouldDefaultToFullscreenOnAppear, videoShouldAutoStart,
+    case inlineModeForcesRotationToPortrait, allowRotationToLandscape, exitFullscreenWhenDeviceRotatesToPortrait, enterFullscreenOnLandscapeRotation, playerShouldDefaultToFullscreenOnAppear, videoShouldAutoStart,
          useCustomPlayerControlsLayerView, useCustomErrorLayerView, useCustomLoadingLayerView, useCustomCompleteLayerView
     
     var title: String {
         switch self {
         case .inlineModeForcesRotationToPortrait: return "Inline mode forces rotation to portrait"
-        case .fullScreenRotatesToLandscape: return "FullScreen forces rotation to landscape"
+        case .allowRotationToLandscape: return "FullScreen forces rotation to landscape"
         case .exitFullscreenWhenDeviceRotatesToPortrait: return "Exit full screen when device orientates to portrait"
-        case .enterFullscreenWhenDeviceRotatesToLandscape: return "Enter fullscreen when device rotates to landscape"
+        case .enterFullscreenOnLandscapeRotation: return "Enter fullscreen when device rotates to landscape"
         case .playerShouldDefaultToFullscreenOnAppear: return "Player should default to fullscreen on appear"
         case .videoShouldAutoStart: return "Video should autostart on appear"
         case .useCustomPlayerControlsLayerView: return "Use custom player control layer view"
@@ -30,9 +30,9 @@ enum UserDefaultsSRAVDemoKeys: String, CaseIterable {
     var id: Int {
         switch self {
         case .inlineModeForcesRotationToPortrait: return 0
-        case .fullScreenRotatesToLandscape: return 1
+        case .allowRotationToLandscape: return 1
         case .exitFullscreenWhenDeviceRotatesToPortrait: return 2
-        case .enterFullscreenWhenDeviceRotatesToLandscape: return 3
+        case .enterFullscreenOnLandscapeRotation: return 3
         case .playerShouldDefaultToFullscreenOnAppear: return 4
         case .videoShouldAutoStart: return 5
         case .useCustomPlayerControlsLayerView: return 6
@@ -45,9 +45,9 @@ enum UserDefaultsSRAVDemoKeys: String, CaseIterable {
     static func getKey(fromId id: Int) -> UserDefaultsSRAVDemoKeys? {
         switch id {
         case 0: return .inlineModeForcesRotationToPortrait
-        case 1: return .fullScreenRotatesToLandscape
+        case 1: return .allowRotationToLandscape
         case 2: return .exitFullscreenWhenDeviceRotatesToPortrait
-        case 3: return .enterFullscreenWhenDeviceRotatesToLandscape
+        case 3: return .enterFullscreenOnLandscapeRotation
         case 4: return .playerShouldDefaultToFullscreenOnAppear
         case 5: return .videoShouldAutoStart
         case 6: return .useCustomPlayerControlsLayerView

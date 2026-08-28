@@ -1,5 +1,5 @@
 //
-//  CustomPlayerControlContentProvider.swift
+//  CustomPlayerControls.swift
 //  SRAVPlayerDemo
 //
 //  Created by Andreas Becher on 01.12.25.
@@ -9,19 +9,21 @@ import SwiftUI
 
 import SRAVPlayerSDK
 
-struct CustomControlContentProvider: PlayerControlContentProvider {
+struct CustomPlayerControls: PlayerControls {
     private let useCustomControls: Bool
-    private let defaultControlProvider = PlayerControlContentProviderDefault()
+    private let defaultPlayerControls = DefaultPlayerControls()
+    let settingDialogConfiguration = DefaultSettingDialogConfiguration()
+    let fullscreenMediaInfoConfiguration = DefaultFullscreenMediaInfoConfiguration()
     
     init(useCustomControls: Bool) {
         self.useCustomControls = useCustomControls
     }
     
-    func playPause(state: Binding<PlayPauseButtonState>) -> some View {
+    func playPause(state: Binding<PlayPauseButtonState>, isBuffering: Bool) -> some View {
         if useCustomControls {
-            CustomPlayPauseToggleContent(state: state)
+            CustomPlayPauseToggleContent(state: state, isBuffering: isBuffering)
         } else {
-            defaultControlProvider.playPause(state: state)
+            defaultPlayerControls.playPause(state: state, isBuffering: isBuffering)
         }
     }
     
@@ -29,7 +31,7 @@ struct CustomControlContentProvider: PlayerControlContentProvider {
         if useCustomControls {
             CustomFullscreenToggleContent(state: isActive)
         } else {
-            defaultControlProvider.fullscreen(isActive: isActive)
+            defaultPlayerControls.fullscreen(isActive: isActive)
         }
     }
     
@@ -37,7 +39,7 @@ struct CustomControlContentProvider: PlayerControlContentProvider {
         if useCustomControls {
             CustomSettingsControlContent()
         } else {
-            defaultControlProvider.settings()
+            defaultPlayerControls.settings()
         }
     }
     
@@ -45,29 +47,23 @@ struct CustomControlContentProvider: PlayerControlContentProvider {
         if useCustomControls {
             CustomPipContent(state: isActive)
         } else {
-            defaultControlProvider.pip(isActive: isActive)
-        }
-    }
-    
-    func closePlayer() -> some View {
-        if useCustomControls {
-            CustomClosePlayerContent()
-        } else {
-            defaultControlProvider.closePlayer()
+            defaultPlayerControls.pip(isActive: isActive)
         }
     }
     
     struct CustomPlayPauseToggleContent : View {
         @Environment(\.theme) private var theme
         @Binding private var state : PlayPauseButtonState
+        private let isBuffering: Bool
         
-        init(state: Binding<PlayPauseButtonState>) {
+        init(state: Binding<PlayPauseButtonState>, isBuffering: Bool) {
             self._state = state
+            self.isBuffering = isBuffering
         }
         
         var body: some View {
-            Text("\(state == .init(state: .paused) ? "Custom Play" : "Custom Pause")")
-                .foregroundStyle(theme.colors.tint)
+            Text(isBuffering ? "Custom Buffering" : "\(state == .paused ? "Custom Play" : "Custom Pause")")
+                .foregroundStyle(theme.colors.iconButtonPrimaryColor)
         }
     }
     
@@ -105,14 +101,6 @@ struct CustomControlContentProvider: PlayerControlContentProvider {
         var body: some View {
             Circle()
                 .fill(state ? Color.brown : Color.purple)
-                .frame(height: 40)
-        }
-    }
-
-    struct CustomClosePlayerContent: View {
-        var body: some View {
-            Circle()
-                .fill(Color.purple)
                 .frame(height: 40)
         }
     }

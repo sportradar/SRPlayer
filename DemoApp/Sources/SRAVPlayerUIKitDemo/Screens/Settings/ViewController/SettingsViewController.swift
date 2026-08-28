@@ -23,7 +23,13 @@ final class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController: NavigationDelegate {
-    func openAVPlayerDetails(viewModel: SRAVPlayerSettingsModel, customLayerSettingsModel: SettingsModel) {
-        navigationController?.pushViewController(PlayerDetailsViewController(settings: viewModel, customLayerSettingsModel: customLayerSettingsModel), animated: true)
+    func openAVPlayerDetails(orientationConfiguration: PlayerOrientationConfiguration, customLayerSettingsModel: SettingsModel) {
+        navigationController?.pushViewController(
+            PlayerDetailsViewController(
+                orientationConfiguration: orientationConfiguration,
+                customLayerSettingsModel: customLayerSettingsModel
+            ),
+            animated: true
+        )
     }
 }

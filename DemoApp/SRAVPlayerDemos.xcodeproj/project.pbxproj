@@ -7,85 +7,102 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0494300735050A34D15ABC79 /* CustomPlayerViewOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D244D1EB2E41A88D4DC5371 /* CustomPlayerViewOverlays.swift */; };
+		08C1B103C2D31E956DD21935 /* CustomPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C5C6D8047C2E9B0BFF4D2B /* CustomPlayerControls.swift */; };
 		09DDED12083652F40E0FCCE7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3EE0A1098E1E720979D5BA9 /* Assets.xcassets */; };
 		0AD579DA6B6E822FD4CAB104 /* SRAVPlayerSDK in Frameworks */ = {isa = PBXBuildFile; productRef = F04E3C3CC1D68FDE8246323B /* SRAVPlayerSDK */; };
-		0D40C24FBC661BAF497AEB62 /* CustomControlContentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB1199A8E166EB7BE8209FF /* CustomControlContentProvider.swift */; };
 		1005A29842FF62697795F538 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A53BE6CC327AF76F5DC771 /* SettingsModel.swift */; };
+		15CD03152859494F45673CB1 /* CustomPlayerViewOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C69E110E886083053129664 /* CustomPlayerViewOverlays.swift */; };
 		170AF490C0A288954ADECB33 /* PlayerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F516236F381D4DDA42959B4 /* PlayerTheme.swift */; };
+		190ADF0171569577BEED10D5 /* CustomPlayerControlsLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2B27A5B95C3205609838F6 /* CustomPlayerControlsLayerView.swift */; };
 		1D4EE29765DBEC1324A1E8AD /* UserDefaultsSRAVDemoKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9B3E15BE5A18F32D6A00FF /* UserDefaultsSRAVDemoKeys.swift */; };
 		21950AEAD0D3FB315C0DE447 /* SRAVPlayerSDK in Frameworks */ = {isa = PBXBuildFile; productRef = CDF8B1B89004A86E5FCD2BCF /* SRAVPlayerSDK */; };
 		23B3CE21A42E84878187C364 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E13F0376E760092376A7C8A0 /* Assets.xcassets */; };
 		2432C57C3FC500C967A50419 /* CustomAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DDCE87D1A07B8EDF3E92F0 /* CustomAnalyticsProvider.swift */; };
+		2609E93C8D848291C18359C4 /* DemoSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E449BD94EA8D2505F53EFC /* DemoSecrets.swift */; };
 		2944580B04C84F6892CFCAC9 /* StreamSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF93C43DA8FA2FBC23547FA7 /* StreamSource.swift */; };
 		297FEA49140B0F03E9C8826C /* StreamSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413A46FDBBB06BDB6178BEB8 /* StreamSource.swift */; };
 		37C661012022273FD3382612 /* CustomCompleteLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B280973029EE7AB0DAB78069 /* CustomCompleteLayerView.swift */; };
-		3F2C52D5F26538023E8117A0 /* CustomControlContentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405DC7839924A941C62C77EE /* CustomControlContentProvider.swift */; };
+		4026256B914449649D76A618 /* PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081DE5ECCBE0905137284CAA /* PlayerService.swift */; };
+		40812C33C7F4BDBE0602758F /* SRAVPlayerChromecastPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = 8091FB038781573E0BD44B04 /* SRAVPlayerChromecastPlugin */; };
 		432F0D5104C71A73E7ED213A /* CustomAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2849B387E2712404F567682 /* CustomAnalyticsProvider.swift */; };
 		435015C4CF9C4F595D42E40A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132CAC457D1FBEBE23645167 /* SettingsView.swift */; };
 		4A4464EC1685310235D67E6E /* PlayerDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549EA13389C6438AAD21B22 /* PlayerDetailsView.swift */; };
 		53547884D19799741E18EE48 /* PlayerDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70813C61F50B3B4D4728279 /* PlayerDetailsView.swift */; };
-		57911F6B846DEB63E796DCC3 /* CustomControlContentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6EBB915AE9710162D9E7657 /* CustomControlContentProvider.swift */; };
 		5890C4D0900E14FAE47D13F3 /* DemoSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB116B474B71C2BB8651E3D /* DemoSettings.swift */; };
 		5BB316FD161C808D6BE09E37 /* PickerStyleModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14648C3EB3B33DE8928197F7 /* PickerStyleModifier.swift */; };
 		5D806B05D8E0D281BC667A36 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D26F423327D443412D18C /* SettingsModel.swift */; };
 		60CB9E199001D1EB2A9EEEB2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA2C4AE229D1E34019CB6FC /* SettingsViewController.swift */; };
+		66CC026DF10C058F112967E9 /* OTTTokenHeaderUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B88280F3AAD597E4ADC32E9 /* OTTTokenHeaderUseCase.swift */; };
+		689C02BC8DFB404B996CEF5C /* CustomPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3642FD271D00B5297413CC80 /* CustomPlayerControls.swift */; };
 		74179C479ECC3F712C824407 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A49360F1B77C189357689B /* ContentView.swift */; };
+		7D578FAF72DF6005C11A5B10 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32874E315DD1A39F67BB7E3C /* ContentViewModel.swift */; };
 		8689F06D0A3DE5C2A5B794D5 /* NavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA3BB811399745A85E9BDC /* NavigationDelegate.swift */; };
 		89B0AF4623950564E2035F57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F572313AB7E517CBE247E1E7 /* Assets.xcassets */; };
-		8A492541C40964CA5A528015 /* CustomPlayerLayerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E7B60A832AA7ABC014CEA0 /* CustomPlayerLayerProvider.swift */; };
 		8A575D1678D101FCC2A9287F /* CustomCompleteLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1AC4E8FBA3F4AEF49A9896 /* CustomCompleteLayerView.swift */; };
 		98723E6C88980036A0FC258B /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DFF1F566DACCDD8415CAEA /* SettingsModel.swift */; };
 		98D91C5495041250B0AA71F9 /* PlayerDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B9BDEC66A49A5D03477478 /* PlayerDetailsViewController.swift */; };
 		9B0EC1CE69D8E029C298AE8C /* View+Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD19E265FADC46C17058FC73 /* View+Extra.swift */; };
 		A085E4DD9437AD11977476DC /* CustomErrorLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3170D3440B81BD46368880EE /* CustomErrorLayerView.swift */; };
+		A1E7D5F12362E2A37FF62EE4 /* RestrictedAccessBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E4222C7D5FFA11F4AD05D /* RestrictedAccessBottomSheet.swift */; };
 		A870BDC96E0C3F5B0A6DA5D3 /* SRAVPlayerSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 58D6AB659C0388D39DA29C8F /* SRAVPlayerSDK */; };
 		A9948326B90DBDC28BA7FA7F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A96B76AD468A2E0A7AD5248 /* SettingsView.swift */; };
+		ADC9BD250F1287CCC7321A0B /* CustomPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716C9A2A0E88AFA54B8880E1 /* CustomPlayerControls.swift */; };
 		B671DFFDA560274733D6B06D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B6E7D36FC1E9C54202D74B /* AppDelegate.swift */; };
 		B69C011009F3A0D48B129840 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B28F8AF3A203E786A8F4CD /* SceneDelegate.swift */; };
 		B9046F3FDAF2C0DFABC24E0F /* CustomLoadingLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A803AC5FF2463A851431549D /* CustomLoadingLayerView.swift */; };
 		BA54DE9049115445BD5995FB /* CustomPlayerControlsLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EAACD73555A96B261060D9 /* CustomPlayerControlsLayerView.swift */; };
 		BBEADB1A669CD1AA610EAC7F /* CustomPlayerControlsLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30D5E6C4B2A9011CC7C25C2E /* CustomPlayerControlsLayerView.swift */; };
-		BF4655165FF524CC628FC982 /* CustomPlayerLayerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED729E73F63861682067D80 /* CustomPlayerLayerProvider.swift */; };
+		BDC4195FBC3DEA01E792EC79 /* CustomPlayerViewOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECA923940E6DA78235D1D5F /* CustomPlayerViewOverlays.swift */; };
+		BEADC5473567E3C065836886 /* OTTConfigAdaption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF3DE6E827EAD8DE3466B72 /* OTTConfigAdaption.swift */; };
+		BF019A8DFDB534FA64722C50 /* CustomErrorLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0BCAB07A8230A2D4C76CAC /* CustomErrorLayerView.swift */; };
 		C22531B606EB0A3A95020C30 /* CustomAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCA8D08AEAA6C392EFBE7F0 /* CustomAnalyticsProvider.swift */; };
+		D009F59FEF9533B341ED3447 /* SRAVPlayerChromecastPlugin in Frameworks */ = {isa = PBXBuildFile; productRef = D1191D5F85860FF1B9F7EB9A /* SRAVPlayerChromecastPlugin */; };
 		D490D134AB92D68A37B3AC02 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466E233A41B2C64981819A05 /* SettingsView.swift */; };
 		DE897BADB09A7567EB455C32 /* CustomTypealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0ED7D928D95B85318BC0B48 /* CustomTypealias.swift */; };
-		E9ED2D5CB9B2F041C2036307 /* CustomPlayerLayerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B141D78B43320F489305C51 /* CustomPlayerLayerProvider.swift */; };
-		EB9EB60CFF1CA310103ACCEF /* CustomPlayerControlsLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B2A41956D8C71543FE52D9 /* CustomPlayerControlsLayerView.swift */; };
-		EC625044D055569EEC661848 /* CustomErrorLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8871E90E6B85BDF0963D1071 /* CustomErrorLayerView.swift */; };
 		F256A5C177D3DB82A290F322 /* SRAVPlayerDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E400907B25E8274D9FAFBF /* SRAVPlayerDemoApp.swift */; };
 		F4799E104BB0A8A1DD462FB9 /* CustomLoadingLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EBE6CD9422DAA02F15E09C7 /* CustomLoadingLayerView.swift */; };
 		F70D3CFEBE15670F9CD88385 /* CustomErrorLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3150158854E0830F3213ADC /* CustomErrorLayerView.swift */; };
+		FB0DEB7E1FD3700F12199B53 /* DemoSecrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B4AF801DB6E218E6619E00 /* DemoSecrets.swift */; };
 		FD096242A0FA834F0AADCE46 /* SRAVPlayerAppleTVDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424E22E51FDECA94F47A6561 /* SRAVPlayerAppleTVDemoApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02E400907B25E8274D9FAFBF /* SRAVPlayerDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRAVPlayerDemoApp.swift; sourceTree = "<group>"; };
+		081DE5ECCBE0905137284CAA /* PlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerService.swift; sourceTree = "<group>"; };
+		0B88280F3AAD597E4ADC32E9 /* OTTTokenHeaderUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTTTokenHeaderUseCase.swift; sourceTree = "<group>"; };
 		132CAC457D1FBEBE23645167 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		14648C3EB3B33DE8928197F7 /* PickerStyleModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerStyleModifier.swift; sourceTree = "<group>"; };
+		15C5C6D8047C2E9B0BFF4D2B /* CustomPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerControls.swift; sourceTree = "<group>"; };
 		1EBE6CD9422DAA02F15E09C7 /* CustomLoadingLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLoadingLayerView.swift; sourceTree = "<group>"; };
+		2D244D1EB2E41A88D4DC5371 /* CustomPlayerViewOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerViewOverlays.swift; sourceTree = "<group>"; };
 		2E9B3E15BE5A18F32D6A00FF /* UserDefaultsSRAVDemoKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSRAVDemoKeys.swift; sourceTree = "<group>"; };
+		2ECA923940E6DA78235D1D5F /* CustomPlayerViewOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerViewOverlays.swift; sourceTree = "<group>"; };
 		30D5E6C4B2A9011CC7C25C2E /* CustomPlayerControlsLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerControlsLayerView.swift; sourceTree = "<group>"; };
 		3170D3440B81BD46368880EE /* CustomErrorLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorLayerView.swift; sourceTree = "<group>"; };
+		32874E315DD1A39F67BB7E3C /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		33A53BE6CC327AF76F5DC771 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		3549EA13389C6438AAD21B22 /* PlayerDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsView.swift; sourceTree = "<group>"; };
+		3642FD271D00B5297413CC80 /* CustomPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerControls.swift; sourceTree = "<group>"; };
 		38EAACD73555A96B261060D9 /* CustomPlayerControlsLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerControlsLayerView.swift; sourceTree = "<group>"; };
-		3B141D78B43320F489305C51 /* CustomPlayerLayerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerLayerProvider.swift; sourceTree = "<group>"; };
 		3DCA8D08AEAA6C392EFBE7F0 /* CustomAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnalyticsProvider.swift; sourceTree = "<group>"; };
-		3ED729E73F63861682067D80 /* CustomPlayerLayerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerLayerProvider.swift; sourceTree = "<group>"; };
-		405DC7839924A941C62C77EE /* CustomControlContentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControlContentProvider.swift; sourceTree = "<group>"; };
 		413A46FDBBB06BDB6178BEB8 /* StreamSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamSource.swift; sourceTree = "<group>"; };
 		424E22E51FDECA94F47A6561 /* SRAVPlayerAppleTVDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SRAVPlayerAppleTVDemoApp.swift; sourceTree = "<group>"; };
 		4616498CFCCD3050F13210D8 /* DemoAppleTV.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DemoAppleTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		466E233A41B2C64981819A05 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		59B4AF801DB6E218E6619E00 /* DemoSecrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSecrets.swift; sourceTree = "<group>"; };
+		622E4222C7D5FFA11F4AD05D /* RestrictedAccessBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedAccessBottomSheet.swift; sourceTree = "<group>"; };
 		66DDCE87D1A07B8EDF3E92F0 /* CustomAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnalyticsProvider.swift; sourceTree = "<group>"; };
-		6DB1199A8E166EB7BE8209FF /* CustomControlContentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControlContentProvider.swift; sourceTree = "<group>"; };
+		716C9A2A0E88AFA54B8880E1 /* CustomPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerControls.swift; sourceTree = "<group>"; };
 		7F516236F381D4DDA42959B4 /* PlayerTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTheme.swift; sourceTree = "<group>"; };
 		85FA3BB811399745A85E9BDC /* NavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDelegate.swift; sourceTree = "<group>"; };
-		8871E90E6B85BDF0963D1071 /* CustomErrorLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorLayerView.swift; sourceTree = "<group>"; };
 		8E4D26F423327D443412D18C /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		8EF3DE6E827EAD8DE3466B72 /* OTTConfigAdaption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTTConfigAdaption.swift; sourceTree = "<group>"; };
 		97B9BDEC66A49A5D03477478 /* PlayerDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsViewController.swift; sourceTree = "<group>"; };
 		984E891E09927F2258C86328 /* DemoSwiftUI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DemoSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A96B76AD468A2E0A7AD5248 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9C69E110E886083053129664 /* CustomPlayerViewOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerViewOverlays.swift; sourceTree = "<group>"; };
+		9E0BCAB07A8230A2D4C76CAC /* CustomErrorLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorLayerView.swift; sourceTree = "<group>"; };
 		A0ED7D928D95B85318BC0B48 /* CustomTypealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTypealias.swift; sourceTree = "<group>"; };
 		A2849B387E2712404F567682 /* CustomAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnalyticsProvider.swift; sourceTree = "<group>"; };
 		A3EE0A1098E1E720979D5BA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -94,20 +111,21 @@
 		B77C4F0D1106B9123671F3EC /* DemoUIKit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DemoUIKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA1AC4E8FBA3F4AEF49A9896 /* CustomCompleteLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCompleteLayerView.swift; sourceTree = "<group>"; };
 		BFA2C4AE229D1E34019CB6FC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		C6B2A41956D8C71543FE52D9 /* CustomPlayerControlsLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerControlsLayerView.swift; sourceTree = "<group>"; };
 		C70813C61F50B3B4D4728279 /* PlayerDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsView.swift; sourceTree = "<group>"; };
+		C8E449BD94EA8D2505F53EFC /* DemoSecrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSecrets.swift; sourceTree = "<group>"; };
 		CAB116B474B71C2BB8651E3D /* DemoSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettings.swift; sourceTree = "<group>"; };
 		CF93C43DA8FA2FBC23547FA7 /* StreamSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamSource.swift; sourceTree = "<group>"; };
 		D4B6E7D36FC1E9C54202D74B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D7E7B60A832AA7ABC014CEA0 /* CustomPlayerLayerProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerLayerProvider.swift; sourceTree = "<group>"; };
 		E13F0376E760092376A7C8A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E3150158854E0830F3213ADC /* CustomErrorLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrorLayerView.swift; sourceTree = "<group>"; };
 		E3B28F8AF3A203E786A8F4CD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E6EBB915AE9710162D9E7657 /* CustomControlContentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControlContentProvider.swift; sourceTree = "<group>"; };
 		E8A49360F1B77C189357689B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F572313AB7E517CBE247E1E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F5DFF1F566DACCDD8415CAEA /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		FC912BB869F3C4D1762D759A /* SRAVPlayerUIKitDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SRAVPlayerUIKitDemo.entitlements; sourceTree = "<group>"; };
 		FD19E265FADC46C17058FC73 /* View+Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extra.swift"; sourceTree = "<group>"; };
+		FD2B27A5B95C3205609838F6 /* CustomPlayerControlsLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerControlsLayerView.swift; sourceTree = "<group>"; };
+		FFC9CBEA901B3467E5A111D0 /* SRAVPlayerDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SRAVPlayerDemo.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A870BDC96E0C3F5B0A6DA5D3 /* SRAVPlayerSDK in Frameworks */,
+				40812C33C7F4BDBE0602758F /* SRAVPlayerChromecastPlugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21950AEAD0D3FB315C0DE447 /* SRAVPlayerSDK in Frameworks */,
+				D009F59FEF9533B341ED3447 /* SRAVPlayerChromecastPlugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,8 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				3549EA13389C6438AAD21B22 /* PlayerDetailsView.swift */,
-				0CEAD07EA159E16EFF1D25E7 /* CustomControlProvider */,
-				AE0DC8FBF852916DD8639B90 /* CustomLayerProvider */,
+				FA553D9EC7909D02BCD7FC9C /* CustomOverlays */,
+				F61DA748CDC4A84501E12583 /* CustomPlayerControls */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -184,14 +204,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		0CEAD07EA159E16EFF1D25E7 /* CustomControlProvider */ = {
-			isa = PBXGroup;
-			children = (
-				405DC7839924A941C62C77EE /* CustomControlContentProvider.swift */,
-			);
-			path = CustomControlProvider;
-			sourceTree = "<group>";
-		};
 		1575DDC4BC5C092DD6E3C22A /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,7 +233,9 @@
 		278C0F29327B6BACBA64BA64 /* PlayerCustomisation */ = {
 			isa = PBXGroup;
 			children = (
+				8EF3DE6E827EAD8DE3466B72 /* OTTConfigAdaption.swift */,
 				7F516236F381D4DDA42959B4 /* PlayerTheme.swift */,
+				8ABEB322A7A8D8608A430E5D /* OTT */,
 			);
 			path = PlayerCustomisation;
 			sourceTree = "<group>";
@@ -272,8 +286,8 @@
 		5B84E76A50678A64743ADDB3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6DB1199A8E166EB7BE8209FF /* CustomControlContentProvider.swift */,
-				3ED729E73F63861682067D80 /* CustomPlayerLayerProvider.swift */,
+				716C9A2A0E88AFA54B8880E1 /* CustomPlayerControls.swift */,
+				2D244D1EB2E41A88D4DC5371 /* CustomPlayerViewOverlays.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -327,11 +341,20 @@
 			path = CustomPlayerControlsLayerView;
 			sourceTree = "<group>";
 		};
+		8ABEB322A7A8D8608A430E5D /* OTT */ = {
+			isa = PBXGroup;
+			children = (
+				0B88280F3AAD597E4ADC32E9 /* OTTTokenHeaderUseCase.swift */,
+			);
+			path = OTT;
+			sourceTree = "<group>";
+		};
 		94ED5B737078365CF66B514D /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E6EBB915AE9710162D9E7657 /* CustomControlContentProvider.swift */,
-				3B141D78B43320F489305C51 /* CustomPlayerLayerProvider.swift */,
+				15C5C6D8047C2E9B0BFF4D2B /* CustomPlayerControls.swift */,
+				9C69E110E886083053129664 /* CustomPlayerViewOverlays.swift */,
+				622E4222C7D5FFA11F4AD05D /* RestrictedAccessBottomSheet.swift */,
 				6F04D8B6D3BEF1BBEA962278 /* CustomCompleteLayerView */,
 				CB97951EF2ECCE6876F8CB3C /* CustomErrorLayerView */,
 				F3578D6BB50C3DFB61ED66A4 /* CustomLoadingLayerView */,
@@ -368,20 +391,11 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		AE0DC8FBF852916DD8639B90 /* CustomLayerProvider */ = {
-			isa = PBXGroup;
-			children = (
-				8871E90E6B85BDF0963D1071 /* CustomErrorLayerView.swift */,
-				C6B2A41956D8C71543FE52D9 /* CustomPlayerControlsLayerView.swift */,
-				D7E7B60A832AA7ABC014CEA0 /* CustomPlayerLayerProvider.swift */,
-			);
-			path = CustomLayerProvider;
-			sourceTree = "<group>";
-		};
 		B8F04BF946E8394271B9E01C /* SRAVPlayerAppleTVDemo */ = {
 			isa = PBXGroup;
 			children = (
 				A3EE0A1098E1E720979D5BA9 /* Assets.xcassets */,
+				59B4AF801DB6E218E6619E00 /* DemoSecrets.swift */,
 				424E22E51FDECA94F47A6561 /* SRAVPlayerAppleTVDemoApp.swift */,
 				4580BA44A55966287DF26D60 /* Analytics */,
 				297CB48102AAEF2506BEC5E2 /* Helper */,
@@ -398,6 +412,7 @@
 				D4B6E7D36FC1E9C54202D74B /* AppDelegate.swift */,
 				F572313AB7E517CBE247E1E7 /* Assets.xcassets */,
 				E3B28F8AF3A203E786A8F4CD /* SceneDelegate.swift */,
+				FC912BB869F3C4D1762D759A /* SRAVPlayerUIKitDemo.entitlements */,
 				7265939C98BC0F92E27B6ABA /* Extensions */,
 				C90B1F75C3B045860BCA16E3 /* Screens */,
 				C21711F9567D82F7BDD3F9B5 /* Services */,
@@ -436,6 +451,7 @@
 			isa = PBXGroup;
 			children = (
 				66DDCE87D1A07B8EDF3E92F0 /* CustomAnalyticsProvider.swift */,
+				081DE5ECCBE0905137284CAA /* PlayerService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -491,11 +507,32 @@
 			path = CustomLoadingLayerView;
 			sourceTree = "<group>";
 		};
+		F61DA748CDC4A84501E12583 /* CustomPlayerControls */ = {
+			isa = PBXGroup;
+			children = (
+				3642FD271D00B5297413CC80 /* CustomPlayerControls.swift */,
+			);
+			path = CustomPlayerControls;
+			sourceTree = "<group>";
+		};
+		FA553D9EC7909D02BCD7FC9C /* CustomOverlays */ = {
+			isa = PBXGroup;
+			children = (
+				9E0BCAB07A8230A2D4C76CAC /* CustomErrorLayerView.swift */,
+				FD2B27A5B95C3205609838F6 /* CustomPlayerControlsLayerView.swift */,
+				2ECA923940E6DA78235D1D5F /* CustomPlayerViewOverlays.swift */,
+			);
+			path = CustomOverlays;
+			sourceTree = "<group>";
+		};
 		FCE3839BC9D7E0C289F0E43F /* SRAVPlayerDemo */ = {
 			isa = PBXGroup;
 			children = (
 				E13F0376E760092376A7C8A0 /* Assets.xcassets */,
 				E8A49360F1B77C189357689B /* ContentView.swift */,
+				32874E315DD1A39F67BB7E3C /* ContentViewModel.swift */,
+				C8E449BD94EA8D2505F53EFC /* DemoSecrets.swift */,
+				FFC9CBEA901B3467E5A111D0 /* SRAVPlayerDemo.entitlements */,
 				02E400907B25E8274D9FAFBF /* SRAVPlayerDemoApp.swift */,
 				796B1AAFC4ED4A3E1BAF5DCA /* Analytics */,
 				278C0F29327B6BACBA64BA64 /* PlayerCustomisation */,
@@ -554,6 +591,7 @@
 			name = DemoSwiftUI;
 			packageProductDependencies = (
 				CDF8B1B89004A86E5FCD2BCF /* SRAVPlayerSDK */,
+				D1191D5F85860FF1B9F7EB9A /* SRAVPlayerChromecastPlugin */,
 			);
 			productName = DemoSwiftUI;
 			productReference = 984E891E09927F2258C86328 /* DemoSwiftUI.app */;
@@ -574,6 +612,7 @@
 			name = DemoUIKit;
 			packageProductDependencies = (
 				58D6AB659C0388D39DA29C8F /* SRAVPlayerSDK */,
+				8091FB038781573E0BD44B04 /* SRAVPlayerChromecastPlugin */,
 			);
 			productName = DemoUIKit;
 			productReference = B77C4F0D1106B9123671F3EC /* DemoUIKit.app */;
@@ -600,7 +639,6 @@
 				};
 			};
 			buildConfigurationList = 3BED30148FACAE851162DF37 /* Build configuration list for PBXProject "SRAVPlayerDemos" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -613,6 +651,7 @@
 				E6426E1EE06FB54EE98741FD /* XCRemoteSwiftPackageReference "SRPlayer" */,
 			);
 			preferredProjectObjectVersion = 77;
+			productRefGroup = BDD5A0417FCEFDC15482A247 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -656,11 +695,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C22531B606EB0A3A95020C30 /* CustomAnalyticsProvider.swift in Sources */,
-				3F2C52D5F26538023E8117A0 /* CustomControlContentProvider.swift in Sources */,
-				EC625044D055569EEC661848 /* CustomErrorLayerView.swift in Sources */,
-				EB9EB60CFF1CA310103ACCEF /* CustomPlayerControlsLayerView.swift in Sources */,
-				8A492541C40964CA5A528015 /* CustomPlayerLayerProvider.swift in Sources */,
+				BF019A8DFDB534FA64722C50 /* CustomErrorLayerView.swift in Sources */,
+				689C02BC8DFB404B996CEF5C /* CustomPlayerControls.swift in Sources */,
+				190ADF0171569577BEED10D5 /* CustomPlayerControlsLayerView.swift in Sources */,
+				BDC4195FBC3DEA01E792EC79 /* CustomPlayerViewOverlays.swift in Sources */,
 				DE897BADB09A7567EB455C32 /* CustomTypealias.swift in Sources */,
+				FB0DEB7E1FD3700F12199B53 /* DemoSecrets.swift in Sources */,
 				5890C4D0900E14FAE47D13F3 /* DemoSettings.swift in Sources */,
 				5BB316FD161C808D6BE09E37 /* PickerStyleModifier.swift in Sources */,
 				4A4464EC1685310235D67E6E /* PlayerDetailsView.swift in Sources */,
@@ -676,14 +716,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				74179C479ECC3F712C824407 /* ContentView.swift in Sources */,
+				7D578FAF72DF6005C11A5B10 /* ContentViewModel.swift in Sources */,
 				432F0D5104C71A73E7ED213A /* CustomAnalyticsProvider.swift in Sources */,
 				37C661012022273FD3382612 /* CustomCompleteLayerView.swift in Sources */,
-				57911F6B846DEB63E796DCC3 /* CustomControlContentProvider.swift in Sources */,
 				A085E4DD9437AD11977476DC /* CustomErrorLayerView.swift in Sources */,
 				F4799E104BB0A8A1DD462FB9 /* CustomLoadingLayerView.swift in Sources */,
+				08C1B103C2D31E956DD21935 /* CustomPlayerControls.swift in Sources */,
 				BBEADB1A669CD1AA610EAC7F /* CustomPlayerControlsLayerView.swift in Sources */,
-				E9ED2D5CB9B2F041C2036307 /* CustomPlayerLayerProvider.swift in Sources */,
+				15CD03152859494F45673CB1 /* CustomPlayerViewOverlays.swift in Sources */,
+				2609E93C8D848291C18359C4 /* DemoSecrets.swift in Sources */,
+				BEADC5473567E3C065836886 /* OTTConfigAdaption.swift in Sources */,
+				66CC026DF10C058F112967E9 /* OTTTokenHeaderUseCase.swift in Sources */,
 				170AF490C0A288954ADECB33 /* PlayerTheme.swift in Sources */,
+				A1E7D5F12362E2A37FF62EE4 /* RestrictedAccessBottomSheet.swift in Sources */,
 				F256A5C177D3DB82A290F322 /* SRAVPlayerDemoApp.swift in Sources */,
 				1005A29842FF62697795F538 /* SettingsModel.swift in Sources */,
 				A9948326B90DBDC28BA7FA7F /* SettingsView.swift in Sources */,
@@ -698,14 +743,15 @@
 				B671DFFDA560274733D6B06D /* AppDelegate.swift in Sources */,
 				2432C57C3FC500C967A50419 /* CustomAnalyticsProvider.swift in Sources */,
 				8A575D1678D101FCC2A9287F /* CustomCompleteLayerView.swift in Sources */,
-				0D40C24FBC661BAF497AEB62 /* CustomControlContentProvider.swift in Sources */,
 				F70D3CFEBE15670F9CD88385 /* CustomErrorLayerView.swift in Sources */,
 				B9046F3FDAF2C0DFABC24E0F /* CustomLoadingLayerView.swift in Sources */,
+				ADC9BD250F1287CCC7321A0B /* CustomPlayerControls.swift in Sources */,
 				BA54DE9049115445BD5995FB /* CustomPlayerControlsLayerView.swift in Sources */,
-				BF4655165FF524CC628FC982 /* CustomPlayerLayerProvider.swift in Sources */,
+				0494300735050A34D15ABC79 /* CustomPlayerViewOverlays.swift in Sources */,
 				8689F06D0A3DE5C2A5B794D5 /* NavigationDelegate.swift in Sources */,
 				53547884D19799741E18EE48 /* PlayerDetailsView.swift in Sources */,
 				98D91C5495041250B0AA71F9 /* PlayerDetailsViewController.swift in Sources */,
+				4026256B914449649D76A618 /* PlayerService.swift in Sources */,
 				B69C011009F3A0D48B129840 /* SceneDelegate.swift in Sources */,
 				98723E6C88980036A0FC258B /* SettingsModel.swift in Sources */,
 				D490D134AB92D68A37B3AC02 /* SettingsView.swift in Sources */,
@@ -744,6 +790,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -777,6 +824,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -876,6 +924,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphonesimulator*]" = arm64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -909,6 +958,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1027,10 +1077,20 @@
 			package = E6426E1EE06FB54EE98741FD /* XCRemoteSwiftPackageReference "SRPlayer" */;
 			productName = SRAVPlayerSDK;
 		};
+		8091FB038781573E0BD44B04 /* SRAVPlayerChromecastPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E6426E1EE06FB54EE98741FD /* XCRemoteSwiftPackageReference "SRPlayer" */;
+			productName = SRAVPlayerChromecastPlugin;
+		};
 		CDF8B1B89004A86E5FCD2BCF /* SRAVPlayerSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E6426E1EE06FB54EE98741FD /* XCRemoteSwiftPackageReference "SRPlayer" */;
 			productName = SRAVPlayerSDK;
+		};
+		D1191D5F85860FF1B9F7EB9A /* SRAVPlayerChromecastPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E6426E1EE06FB54EE98741FD /* XCRemoteSwiftPackageReference "SRPlayer" */;
+			productName = SRAVPlayerChromecastPlugin;
 		};
 		F04E3C3CC1D68FDE8246323B /* SRAVPlayerSDK */ = {
 			isa = XCSwiftPackageProductDependency;

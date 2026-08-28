@@ -11,7 +11,11 @@ import SwiftUI
 struct PlayerTheme: SRAVPlayerTheme {
     
     let fonts = SRAVPlayerFonts(familyName: "Avenir Next Condensed")
-    let colors = SRAVPlayerColors(tint:Color(.playerThemeTint), primaryText:Color(light: "#AAAAAA", dark: "#FFFFFF"))
+    let colors = SRAVPlayerColors(
+        iconButtonPrimaryColor: Color(.playerThemeTint),
+        labelColor: Color(light: "#AAAAAA", dark: "#FFFFFF"),
+        popupTextColor: Color(light: "#AAAAAA", dark: "#FFFFFF")
+    )
     let images : SRAVPlayerImages
                                   
     init() {

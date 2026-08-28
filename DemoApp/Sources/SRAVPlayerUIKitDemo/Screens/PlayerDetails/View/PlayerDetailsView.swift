@@ -12,22 +12,17 @@ import SRAVPlayerSDK
 
 final class PlayerDetailsView: UIView {
     private let videoPlayerView = UIView()
-    private let playerViewModel: SRAVPlayerViewModel
     private let settingsModel: SettingsModel
+    private let orientationConfiguration: PlayerOrientationConfiguration
     private let playerPositionAndSize = PlayerPositionAndSize.centerRegular
-    
-    private(set) lazy var hostingViewController = {
-        let playerV = SRAVPlayerView(viewModel: playerViewModel)
-        return UIHostingController(rootView: playerV)
-    }()
-    
-    private(set) lazy var hostingCustomLayerViewController = {
-        let playerV = SRAVPlayerView(viewModel: playerViewModel, controlContentProvider: CustomControlContentProvider(useCustomControls: settingsModel.useCustomControlContentProvider), layerProvider: CustomPlayerLayerProvider(settings: settingsModel))
-        return UIHostingController(rootView: playerV)
-    }()
-    
-    init(settings: SRAVPlayerSettingsModel, settingsModel: SettingsModel) {
-        playerViewModel = SRAVPlayerViewModel(settings: settings)
+    private var sessionHandler: SRAVSessionHandler?
+    private(set) var hostingViewController: UIHostingController<AnyView>?
+    var onClose: @MainActor () -> Void = {}
+    /// Invoked whenever the SwiftUI hosting controller is created or cleared so the parent can `addChild` / `removeFromParent`.
+    var onHostingControllerChanged: ((UIHostingController<AnyView>?) -> Void)?
+
+    init(orientationConfiguration: PlayerOrientationConfiguration, settingsModel: SettingsModel) {
+        self.orientationConfiguration = orientationConfiguration
         self.settingsModel = settingsModel
         super.init(frame: .zero)
         setup()
@@ -93,41 +88,119 @@ final class PlayerDetailsView: UIView {
     }
 
     private func startVideoPlayer() {
-        /* Old implementation that is not working with confirmation dialog. */
-        /*
-        let player = SRAVPlayer()
-        let vm = SRAVPlayerViewModel(player: player, settings: playerSettings)
-        
-        let playerV = SRAVPlayerView(viewModel: vm)
-        let hc = UIHostingController(rootView: playerV)
-        videoPlayerView.addSubview(hc.view)
-        hc.view.translatesAutoresizingMaskIntoConstraints = false
-        hc.view.pin(to: videoPlayerView, insets: .zero)
-        */
-        
-        if settingsModel.shouldUseCustomOverviewLayerView {
-            videoPlayerView.addSubview(hostingCustomLayerViewController.view)
+        createSession()
+    }
+    
+    private func createSession() {
+        // Stream swap: force teardown (no PiP skip) before creating a new session.
+        sessionHandler?.destroy()
+        detachHostingController()
+        sessionHandler = nil
+
+        let urlString = "https://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8"
+        switch PlayerService.sdk.createSession(input: urlString) {
+        case .success(let handler):
+            let playbackControlsConfiguration = PlaybackControlsConfiguration(controlsLayer: !settingsModel.hideControls,
+                                                                              progressBar: !settingsModel.hideSlider,
+                                                                              centerPlayButton: !settingsModel.hidePlayPauseToggle,
+                                                                              titleText: !settingsModel.hideTitle,
+                                                                              pictureInPicture: !settingsModel.hidePictureInPicture,
+                                                                              settingsMenu: !settingsModel.hideSettingsMenu,
+                                                                              fullscreenToggle: !settingsModel.hideFullscreenToggle,
+                                                                              remotePlayback: !settingsModel.hideRemotePlayback,
+                                                                              seek:true,
+                                                                              rewind: true,
+                                                                              seekButtonDistanceInMS: 1000,
+                                                                              showPipProgressBar: true)
+            let playbackOptions = PlaybackOptions(enableAutoPlay: settingsModel.autoplay, startFromLive: false, startPositionVod: 0)
+            let assetConfiguration = PlaybackAssetConfiguration(playbackOptions: playbackOptions,
+                                                                playbackUiConfiguration: playbackControlsConfiguration)
             
-            hostingCustomLayerViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            hostingCustomLayerViewController.view.pin(to: videoPlayerView, insets: .zero)
-        } else {
-            videoPlayerView.addSubview(hostingViewController.view)
+            handler.session.load(settings: CustomPlayerSettings.default, assetConfiguration: assetConfiguration)
+            self.sessionHandler = handler
+            embedPlayerView(sessionHandler: handler)
             
-            hostingViewController.view.translatesAutoresizingMaskIntoConstraints = false
-            hostingViewController.view.pin(to: videoPlayerView, insets: .zero)
+        case .failure:
+            break
         }
-        
-        let playbackControlsConfiguration = PlaybackControlsConfiguration(controlsLayer: !settingsModel.hideControls,
-                                                                          progressBar: !settingsModel.hideSlider,
-                                                                          centerPlayButton: !settingsModel.hidePlayPauseToggle,
-                                                                          titleText: !settingsModel.hideTitle,
-                                                                          pictureInPicture: !settingsModel.hidePictureInPicture,
-                                                                          settingsMenu: !settingsModel.hideSettingsMenu,
-                                                                          fullscreenToggle: !settingsModel.hideFullscreenToggle,
-                                                                          replayButton: true,
-                                                                          remotePlayback: !settingsModel.hideRemotePlayback)
-        let assetConfiguration = PlaybackAssetConfiguration(enableAutoPlay: settingsModel.autoplay, playbackUiConfiguration: playbackControlsConfiguration)
-        
-        playerViewModel.play(urlString: "https://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8", assetConfiguration: assetConfiguration)
+    }
+
+    /// Tears down the session unless PiP is active (`allowPictureInPicture: true`).
+    /// When destroy returns `false`, keeps the handler and hosting UI so PiP can continue.
+    func destroySession() {
+        guard sessionHandler?.destroy(allowPictureInPicture: true) == true else { return }
+        sessionHandler = nil
+        detachHostingController()
+    }
+
+    private func detachHostingController() {
+        guard let hosting = hostingViewController else { return }
+        hosting.willMove(toParent: nil)
+        hosting.view.removeFromSuperview()
+        hosting.removeFromParent()
+        hostingViewController = nil
+        onHostingControllerChanged?(nil)
+    }
+
+    private func embedPlayerView(sessionHandler: SRAVSessionHandler) {
+        detachHostingController()
+
+        // SRAVPlayerView is generic over Overlays, so the custom and default
+        // builders return different concrete types. AnyView erases that difference so
+        // both can share one UIHostingController<AnyView>.
+        let rootView: AnyView
+        if settingsModel.shouldUseCustomOverviewLayerView {
+            rootView = AnyView(buildPlayerViewWithCustomPlayerLayer(sessionHandler: sessionHandler))
+        } else {
+            rootView = AnyView(buildPlayerViewDefault(sessionHandler: sessionHandler))
+        }
+
+        let hosting = UIHostingController(rootView: rootView)
+        hostingViewController = hosting
+        videoPlayerView.addSubview(hosting.view)
+        hosting.view.translatesAutoresizingMaskIntoConstraints = false
+        hosting.view.pin(to: videoPlayerView, insets: .zero)
+        onHostingControllerChanged?(hosting)
+    }
+
+    /// Custom overlays: `CustomPlayerViewOverlays` (+ optional custom player controls).
+    private func buildPlayerViewWithCustomPlayerLayer(sessionHandler: SRAVSessionHandler) -> some View {
+        SRAVPlayerView(
+            sessionHandler: sessionHandler,
+            configuration: PlayerViewConfiguration(
+                overlays: CustomPlayerViewOverlays(
+                    settings: settingsModel,
+                    playerControls: CustomPlayerControls(
+                        useCustomControls: settingsModel.useCustomPlayerControls
+                    ),
+                    onClose: {
+                        sessionHandler.closePlayer()
+                    }
+                ),
+                actionConfiguration: PlayerActionConfiguration(
+                    onClose: { [weak self] in
+                        self?.onClose()
+                    },
+                    autoDismiss: false
+                ),
+                orientationConfiguration: orientationConfiguration
+            )
+        )
+    }
+
+    /// Default overlays: `PlayerViewConfiguration` → `DefaultConfiguredPlayerViewOverlays`.
+    private func buildPlayerViewDefault(sessionHandler: SRAVSessionHandler) -> some View {
+        SRAVPlayerView(
+            sessionHandler: sessionHandler,
+            configuration: PlayerViewConfiguration(
+                actionConfiguration: PlayerActionConfiguration(
+                    onClose: { [weak self] in
+                        self?.onClose()
+                    },
+                    autoDismiss: false
+                ),
+                orientationConfiguration: orientationConfiguration
+            )
+        )
     }
 }

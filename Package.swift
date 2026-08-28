@@ -2,10 +2,16 @@
 import PackageDescription
 
 let coreSDKUrl = "https://github.com/sportradar/SRPlayer-SDK-Core"
-let coreSDKVersion : Version = "0.2.0"
+let coreSDKVersion : Version = "0.3.49"
 
 let nativeSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/1.0.1/SRAVPlayerSDK.xcframework.zip"
-let nativeSDKChecksum = "ae0e543bd41dee96091d961824f84a2e1b4bcd3f409c1f926d2f80c9a81f87a4"
+let nativeSDKChecksum = "68e1b7493cff2bc43790050fd7c728787efd0ce9c530b8e178a3fb093913efb2"
+
+let chromecastSDKUrl = "https://github.com/sportradar/SRPlayer/releases/download/1.0.1/SRAVPlayerChromecastPlugin.xcframework.zip"
+let chromecastSDKChecksum = "edaf6165677fb1c214b18041a3b569df633d318d1f4a4701cbd08268a2fe5309"
+
+let googleCastUrl = "https://github.com/sportradar/SRPlayer/releases/download/1.0.1/GoogleCast.xcframework.zip"
+let googleCastChecksum = "9a3c29411fd0d6030a1e218652b49331cfd91ee5d22da5edb13cd9dd87ac224d"
 
 let package = Package(
     name: "SRAVPlayerSDK",
@@ -21,6 +27,10 @@ let package = Package(
             name: "SRAVPlayerSDK",
             targets: ["SRAVPlayerTarget"]
         ),
+        .library(
+            name: "SRAVPlayerChromecastPlugin",
+            targets: ["SRAVPlayerChromecastTarget"]
+        ),
     ],
     dependencies: [
         .package(url: coreSDKUrl, exact:coreSDKVersion)
@@ -31,14 +41,32 @@ let package = Package(
             url: nativeSDKUrl,
             checksum: nativeSDKChecksum
         ),
+        .binaryTarget(
+            name: "SRAVPlayerChromecastPlugin",
+            url: chromecastSDKUrl,
+            checksum: chromecastSDKChecksum
+        ),
+        .binaryTarget(
+            name: "GoogleCast",
+            url: googleCastUrl,
+            checksum: googleCastChecksum
+        ),
         .target(
             name: "SRAVPlayerTarget",
             dependencies: [
                 .target(name: "SRAVPlayerSDK"),
-                .product(name: "AVPlayerDataSDK", package: "SRPlayer-SDK-Core"),
+                .product(name: "AVPlayerOTTDataSDK", package: "SRPlayer-SDK-Core"),
             ],
             path: "Sources/SRAVPlayerTarget"
+        ),
+        .target(
+            name: "SRAVPlayerChromecastTarget",
+            dependencies: [
+                .target(name: "SRAVPlayerChromecastPlugin", condition: .when(platforms: [.iOS])),
+                .target(name: "GoogleCast", condition: .when(platforms: [.iOS])),
+                .target(name: "SRAVPlayerTarget"),
+            ],
+            path: "Sources/SRAVPlayerChromecastTarget"
         )
     ]
 )
-

@@ -10,27 +10,28 @@ import SRAVPlayerSDK
 
 struct SettingsView: View {
     @State private var path: [Int] = []
-    @State private var selectedStreamState: StreamSource = .invalid
+    @State private var isPlayerPresentedModally = false
+    @State private var selectedStreamState: DemoStreamOption = StreamSource.defaultStream
     private let userDefaults = UserDefaults.standard
 
-    private enum UserDefaultsSRAVDemoKeys: String { case inlineModeForcesRotationToPortrait, fullScreenRotatesToLandscape, exitFullscreenWhenDeviceRotatesToPortrait, enterFullscreenWhenDeviceRotatesToLandscape, playerShouldDefaultToFullscreenOnAppear, videoShouldAutoStart, useCustomControlContentProvider, useCustomPlayerControlsLayerView, useCustomErrorLayerView, useCustomLoadingLayerView, useCustomCompleteLayerView, showThemeComparison, forcePlayerError, hideControls, hideSlider, hidePlayPauseToggle, hideTitle, hidePictureInPicture, hideSettingsMenu, hideFullscreenToggle, hideRemotePlayback, selectedStream }
+    private enum UserDefaultsSRAVDemoKeys: String { case inlineModeForcesRotationToPortrait, allowRotationToLandscape, exitFullscreenWhenDeviceRotatesToPortrait, enterFullscreenOnLandscapeRotation, playerShouldDefaultToFullscreenOnAppear, videoShouldAutoStart, useCustomPlayerControls, useCustomPlayerControlsLayerView, useCustomErrorLayerView, useCustomLoadingLayerView, useCustomCompleteLayerView, showThemeComparison, forcePlayerError, hideControls, hideSlider, hidePlayPauseToggle, hideTitle, hidePictureInPicture, hideSettingsMenu, hideFullscreenToggle, hideRemotePlayback, selectedStream }
     
     var body: some View {
         NavigationStack(path: $path) {
             List {
                 Section(header: Text("Stream")) {
-                    Picker("Stream auswählen", selection:
+                    Picker("Pick Stream", selection:
                         Binding(
                             get: {
                                 selectedStreamState
                             },
                             set: { newValue in
                                 selectedStreamState = newValue
-                                store(val: newValue.rawValue , key: .selectedStream)
+                                store(val: newValue.id, key: .selectedStream)
                             }
                         )
                     ) {
-                        ForEach(StreamSource.allCases) { stream in
+                        ForEach(StreamSource.allStreams) { stream in
                             Text(stream.title)
                                 .tag(stream)
                         }
@@ -48,8 +49,8 @@ struct SettingsView: View {
                     
                     Toggle("FullScreen forces rotation to landscape", isOn:
                             Binding(
-                                get: {getVal(forKey: .fullScreenRotatesToLandscape)},
-                                set: {selected,_ in store(val: selected, key: .fullScreenRotatesToLandscape) }
+                                get: {getVal(forKey: .allowRotationToLandscape)},
+                                set: {selected,_ in store(val: selected, key: .allowRotationToLandscape) }
                             )
                     )
 
@@ -62,8 +63,8 @@ struct SettingsView: View {
                     
                     Toggle("Enter fullscreen when device rotates to landscape", isOn:
                             Binding(
-                                get: {getVal(forKey: .enterFullscreenWhenDeviceRotatesToLandscape)},
-                                set: {selected,_ in store(val: selected, key: .enterFullscreenWhenDeviceRotatesToLandscape) }
+                                get: {getVal(forKey: .enterFullscreenOnLandscapeRotation)},
+                                set: {selected,_ in store(val: selected, key: .enterFullscreenOnLandscapeRotation) }
                             )
                     )
                 }
@@ -101,10 +102,10 @@ struct SettingsView: View {
                 .tint(Color.red)
                 
                 Section(header: Text("UI Customisation")) {
-                    Toggle("Use custom Control Content (on default layer)", isOn:
+                    Toggle("Use custom Player Controls (on default layer)", isOn:
                             Binding(
-                                get: {getVal(forKey: .useCustomControlContentProvider)},
-                                set: {selected,_ in store(val: selected, key: .useCustomControlContentProvider) }
+                                get: {getVal(forKey: .useCustomPlayerControls)},
+                                set: {selected,_ in store(val: selected, key: .useCustomPlayerControls) }
                             )
                     )
                     
@@ -198,47 +199,67 @@ struct SettingsView: View {
                 .tint(Color.pink)
             }
             .onAppear {
-                selectedStreamState = StreamSource(rawValue:getString(forKey: .selectedStream)) ?? .invalid
+                selectedStreamState = StreamSource.stream(id: getString(forKey: .selectedStream))
+                    ?? StreamSource.defaultStream
             }
             .navigationTitle("Video Player settings")
             .navigationBarTitleDisplayMode(.large)
             .font(Font.system(size: 13, weight: .regular))
             
-            Button("Start Video Player") {
-                path = [1]
+            VStack(spacing: 12) {
+                Button("Start Video Player") {
+                    path = [1]
+                }
+                .padding()
+                .foregroundStyle(.white)
+                .background(Color.green)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                Button("Start Video Player (Modal)") {
+                    isPlayerPresentedModally = true
+                }
+                .padding()
+                .foregroundStyle(.white)
+                .background(Color.blue)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .padding()
-            .foregroundStyle(.white)
-            .background(Color.green)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .padding(.bottom)
             .navigationDestination(for: Int.self) { _ in
-                /* Handle settings. */
-                let sRAVPlayerSettingsModel =
-                SRAVPlayerSettingsModel(
-                    playerType: ((getVal(forKey: .playerShouldDefaultToFullscreenOnAppear)) ? .presentation : .inline),
-                    inlineModeForcesRotationToPortrait: getVal(forKey: .inlineModeForcesRotationToPortrait),
-                    fullScreenRotatesToLandscape: getVal(forKey: .fullScreenRotatesToLandscape),
-                    exitFullscreenWhenDeviceRotatesToPortrait: getVal(forKey: .exitFullscreenWhenDeviceRotatesToPortrait),
-                    enterFullscreenWhenDeviceRotatesToLandscape: getVal(forKey: .enterFullscreenWhenDeviceRotatesToLandscape))
-                
-                let demoSettings = DemoSettings(themeComparison: getVal(forKey: .showThemeComparison), forcePlayerError: getVal(forKey: .forcePlayerError), autoplay: getVal(forKey: .videoShouldAutoStart))
-                let customLayerSettings = SettingsModel(useCustomControlContentProvider: getVal(forKey: .useCustomControlContentProvider),
-                                                        useCustomPlayerControlsLayerView: getVal(forKey: .useCustomPlayerControlsLayerView),
-                                                        useCustomErrorLayerView: getVal(forKey: .useCustomErrorLayerView),
-                                                        useCustomLoadingLayerView: getVal(forKey: .useCustomLoadingLayerView),
-                                                        useCustomCompleteLayerView: getVal(forKey: .useCustomCompleteLayerView),
-                                                        hideControls: getVal(forKey: .hideControls),
-                                                        hideSlider: getVal(forKey: .hideSlider),
-                                                        hidePlayPauseToggle: getVal(forKey: .hidePlayPauseToggle),
-                                                        hideTitle: getVal(forKey: .hideTitle),
-                                                        hidePictureInPicture: getVal(forKey: .hidePictureInPicture),
-                                                        hideSettingsMenu: getVal(forKey: .hideSettingsMenu),
-                                                        hideFullscreenToggle: getVal(forKey: .hideFullscreenToggle),
-                                                        hideRemotePlayback:getVal(forKey: .hideRemotePlayback))
-                
-                ContentView(settings: sRAVPlayerSettingsModel, demoSettings: demoSettings,  customUISettings: customLayerSettings, streamUrl: selectedStreamState.url)
+                playerContentView
+            }
+            .sheet(isPresented: $isPlayerPresentedModally) {
+                NavigationStack {
+                    playerContentView
+                }
             }
         }
+    }
+
+    private var playerContentView: ContentView {
+        let orientationConfiguration =
+        PlayerOrientationConfiguration(
+            startInFullscreen: getVal(forKey: .playerShouldDefaultToFullscreenOnAppear),
+            inlineModeForcesRotationToPortrait: getVal(forKey: .inlineModeForcesRotationToPortrait),
+            allowRotationToLandscape: getVal(forKey: .allowRotationToLandscape),
+            exitFullscreenWhenDeviceRotatesToPortrait: getVal(forKey: .exitFullscreenWhenDeviceRotatesToPortrait),
+            enterFullscreenOnLandscapeRotation: getVal(forKey: .enterFullscreenOnLandscapeRotation))
+
+        let demoSettings = DemoSettings(themeComparison: getVal(forKey: .showThemeComparison), forcePlayerError: getVal(forKey: .forcePlayerError), autoplay: getVal(forKey: .videoShouldAutoStart))
+        let customLayerSettings = SettingsModel(useCustomPlayerControls: getVal(forKey: .useCustomPlayerControls),
+                                                useCustomPlayerControlsLayerView: getVal(forKey: .useCustomPlayerControlsLayerView),
+                                                useCustomErrorLayerView: getVal(forKey: .useCustomErrorLayerView),
+                                                useCustomLoadingLayerView: getVal(forKey: .useCustomLoadingLayerView),
+                                                useCustomCompleteLayerView: getVal(forKey: .useCustomCompleteLayerView),
+                                                hideControls: getVal(forKey: .hideControls),
+                                                hideSlider: getVal(forKey: .hideSlider),
+                                                hidePlayPauseToggle: getVal(forKey: .hidePlayPauseToggle),
+                                                hideTitle: getVal(forKey: .hideTitle),
+                                                hidePictureInPicture: getVal(forKey: .hidePictureInPicture),
+                                                hideSettingsMenu: getVal(forKey: .hideSettingsMenu),
+                                                hideFullscreenToggle: getVal(forKey: .hideFullscreenToggle),
+                                                hideRemotePlayback:getVal(forKey: .hideRemotePlayback))
+
+        return ContentView(orientationConfiguration: orientationConfiguration, demoSettings: demoSettings, customUISettings: customLayerSettings, streamSource: selectedStreamState)
     }
 }
 
@@ -257,7 +278,7 @@ private extension SettingsView {
     }
 
     private func getString(forKey key: UserDefaultsSRAVDemoKeys) -> String {
-        userDefaults.string(forKey: key.rawValue) ?? StreamSource.elephantsDream.rawValue
+        userDefaults.string(forKey: key.rawValue) ?? StreamSource.defaultStream.id
     }
 }
 

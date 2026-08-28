@@ -102,18 +102,18 @@ private extension SettingsView {
     
     @objc private func buttonPressed(_ sender: UIButton) {
         /* Handle settings. */
-        let sRAVPlayerSettingsModel =
-        SRAVPlayerSettingsModel(
-            playerType: ((getVal(forKey: .playerShouldDefaultToFullscreenOnAppear)) ? .presentation : .inline),
+        let orientationConfiguration =
+        PlayerOrientationConfiguration(
+            startInFullscreen: getVal(forKey: .playerShouldDefaultToFullscreenOnAppear),
             inlineModeForcesRotationToPortrait: getVal(forKey: .inlineModeForcesRotationToPortrait),
-            fullScreenRotatesToLandscape: getVal(forKey: .fullScreenRotatesToLandscape),
+            allowRotationToLandscape: getVal(forKey: .allowRotationToLandscape),
             exitFullscreenWhenDeviceRotatesToPortrait: getVal(forKey: .exitFullscreenWhenDeviceRotatesToPortrait),
-            enterFullscreenWhenDeviceRotatesToLandscape: getVal(forKey: .enterFullscreenWhenDeviceRotatesToLandscape)
+            enterFullscreenOnLandscapeRotation: getVal(forKey: .enterFullscreenOnLandscapeRotation)
         )
         
-        let customLayerSettingsModel = SettingsModel(useCustomControlContentProvider: false, useCustomPlayerControlsLayerView: getVal(forKey: .useCustomPlayerControlsLayerView), useCustomErrorLayerView: getVal(forKey: .useCustomErrorLayerView), useCustomLoadingLayerView: getVal(forKey: .useCustomLoadingLayerView), useCustomCompleteLayerView: getVal(forKey: .useCustomCompleteLayerView), hideControls: false, hideSlider: false, hidePlayPauseToggle: false, hideTitle: false, hidePictureInPicture: false, hideSettingsMenu: false, hideFullscreenToggle: false, hideRemotePlayback: false, autoplay: getVal(forKey: .videoShouldAutoStart))
+        let customLayerSettingsModel = SettingsModel(useCustomPlayerControls: false, useCustomPlayerControlsLayerView: getVal(forKey: .useCustomPlayerControlsLayerView), useCustomErrorLayerView: getVal(forKey: .useCustomErrorLayerView), useCustomLoadingLayerView: getVal(forKey: .useCustomLoadingLayerView), useCustomCompleteLayerView: getVal(forKey: .useCustomCompleteLayerView), hideControls: false, hideSlider: false, hidePlayPauseToggle: false, hideTitle: false, hidePictureInPicture: false, hideSettingsMenu: false, hideFullscreenToggle: false, hideRemotePlayback: false, autoplay: getVal(forKey: .videoShouldAutoStart))
         
-        delegate?.openAVPlayerDetails(viewModel: sRAVPlayerSettingsModel, customLayerSettingsModel: customLayerSettingsModel)
+        delegate?.openAVPlayerDetails(orientationConfiguration: orientationConfiguration, customLayerSettingsModel: customLayerSettingsModel)
     }
 }
 

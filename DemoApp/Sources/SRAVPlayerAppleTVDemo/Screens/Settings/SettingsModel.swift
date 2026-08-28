@@ -8,7 +8,7 @@
 import Foundation
 
 struct SettingsModel {
-    let useCustomControlContentProvider: Bool
+    let useCustomPlayerControls: Bool
     let useCustomPlayerControlsLayerView: Bool
     let useCustomErrorLayerView: Bool
     let useCustomLoadingLayerView: Bool

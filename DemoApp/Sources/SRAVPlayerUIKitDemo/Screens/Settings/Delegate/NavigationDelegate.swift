@@ -9,5 +9,5 @@ import Foundation
 import SRAVPlayerSDK
 
 protocol NavigationDelegate: AnyObject {
-    func openAVPlayerDetails(viewModel: SRAVPlayerSettingsModel, customLayerSettingsModel: SettingsModel)
+    func openAVPlayerDetails(orientationConfiguration: PlayerOrientationConfiguration, customLayerSettingsModel: SettingsModel)
 }

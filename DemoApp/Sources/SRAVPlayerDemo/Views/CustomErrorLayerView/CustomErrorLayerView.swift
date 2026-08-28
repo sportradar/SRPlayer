@@ -9,10 +9,13 @@ import SwiftUI
 import SRAVPlayerSDK
 
 struct CustomErrorLayerView: View {
-    @ObservedObject private var viewModel: SRAVOverlayLayerViewModel
+    private let coordinator : ErrorOverlayCoordinator
+    private var data: ErrorOverlayData {
+        coordinator.errorOverlayData
+    }
     
-    init(viewModel: SRAVOverlayLayerViewModel) {
-        self.viewModel = viewModel
+    init(coordinator: ErrorOverlayCoordinator) {
+        self.coordinator = coordinator
     }
     
     var body: some View {
@@ -23,12 +26,13 @@ struct CustomErrorLayerView: View {
         }
         .onTapGesture {
             withAnimation {
-                viewModel.tapToRetryButtonPressed()
+                coordinator.onInteraction(.retry)
             }
         }
     }
 }
 
 #Preview {
-    CustomErrorLayerView(viewModel: SRAVOverlayLayerViewModel())
+    let data : ErrorOverlayData = .init(exception: nil, canRetry: true, canDismiss: true)
+    CustomErrorLayerView(coordinator: .init(errorOverlayData: data, onInteraction: {_ in}))
 }

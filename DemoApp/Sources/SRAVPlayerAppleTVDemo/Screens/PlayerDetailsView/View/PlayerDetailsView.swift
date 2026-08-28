@@ -9,30 +9,75 @@ import SwiftUI
 import SRAVPlayerSDK
 
 struct PlayerDetailsView: View {
-    @State private var viewModel: SRAVPlayerViewModel?
-    let settings: SRAVPlayerSettingsModel
+    @Environment(\.playerSDK) private var playerSDK
+
+    let orientationConfiguration: PlayerOrientationConfiguration
     let demoSettings: DemoSettings
     let customUISettings: SettingsModel
     let streamUrl: String
     
+    @State private var sessionHandler: SRAVSessionHandler?
+
+    private var actionConfiguration: PlayerActionConfiguration {
+        // Default autoDismiss: true — SwiftUI dismiss() after close / Menu.
+        PlayerActionConfiguration()
+    }
+    
     var body: some View {
         VStack {
-            if let viewModel = viewModel {
+            if let sessionHandler {
                 if customUISettings.shouldUseCustomOverviewLayerView {
-                    SRAVPlayerView(viewModel: viewModel, controlContentProvider: CustomControlContentProvider(useCustomControls: customUISettings.useCustomControlContentProvider), layerProvider: CustomPlayerLayerProvider(settings: customUISettings))
-                } else if customUISettings.useCustomControlContentProvider {
-                    SRAVPlayerView(viewModel: viewModel, controlContentProvider: CustomControlContentProvider(useCustomControls: customUISettings.useCustomControlContentProvider))
+                    SRAVPlayerView(
+                        sessionHandler: sessionHandler,
+                        configuration: PlayerViewConfiguration(
+                            overlays: CustomPlayerViewOverlays(
+                                settings: customUISettings,
+                                playerControls: CustomPlayerControls(
+                                    useCustomControls: customUISettings.useCustomPlayerControls
+                                ),
+                                onClose: { sessionHandler.closePlayer() }
+                            ),
+                            actionConfiguration: actionConfiguration,
+                            orientationConfiguration: orientationConfiguration
+                        )
+                    )
+                } else if customUISettings.useCustomPlayerControls {
+                    SRAVPlayerView(
+                        sessionHandler: sessionHandler,
+                        configuration: PlayerViewConfiguration(
+                            playerControls: CustomPlayerControls(
+                                useCustomControls: customUISettings.useCustomPlayerControls
+                            ),
+                            actionConfiguration: actionConfiguration,
+                            orientationConfiguration: orientationConfiguration
+                        )
+                    )
                 } else {
-                    SRAVPlayerView(viewModel: viewModel)
+                    SRAVPlayerView(
+                        sessionHandler: sessionHandler,
+                        configuration: PlayerViewConfiguration(
+                            actionConfiguration: actionConfiguration,
+                            orientationConfiguration: orientationConfiguration
+                        )
+                    )
                 }
             }
         }
         .onAppear {
+            createSession()
+        }
+        .onDisappear {
+            cancelCurrentSession()
+        }
+    }
+    
+    //MARK: Session creation
+    private func createSession() {
+        sessionHandler?.destroy()
+        sessionHandler = nil
 
-            let debugConfiguration = SRAVDebugLoggerConfiguration(isEnabled: true, customLogger: logReceived)
-            let viewModel = SRAVPlayerViewModel(settings: settings, debugLoggingConfiguration: debugConfiguration)
-            self.viewModel = viewModel
-            
+        switch playerSDK.createSession(input: streamUrl) {
+        case .success(let handler):
             let playbackControlsConfiguration = PlaybackControlsConfiguration(controlsLayer: !customUISettings.hideControls,
                                                                               progressBar: !customUISettings.hideSlider,
                                                                               centerPlayButton: !customUISettings.hidePlayPauseToggle,
@@ -40,20 +85,25 @@ struct PlayerDetailsView: View {
                                                                               pictureInPicture: !customUISettings.hidePictureInPicture,
                                                                               settingsMenu: !customUISettings.hideSettingsMenu,
                                                                               fullscreenToggle: !customUISettings.hideFullscreenToggle,
-                                                                              replayButton: true,
-                                                                              remotePlayback: !customUISettings.hideRemotePlayback)
-            let assetConfig = PlaybackAssetConfiguration(enableAutoPlay: demoSettings.autoplay, playbackUiConfiguration: playbackControlsConfiguration)
-            self.viewModel?.play(urlString: streamUrl, assetConfiguration: assetConfig)
-        }
-        .onDisappear {
-            self.viewModel?.destroy()
+                                                                              remotePlayback: !customUISettings.hideRemotePlayback,
+                                                                              seek:true,
+                                                                              rewind: true,
+                                                                              seekButtonDistanceInMS: 1000,
+                                                                              showPipProgressBar: true)
+            
+
+            let playbackOptions = PlaybackOptions(enableAutoPlay: demoSettings.autoplay, startFromLive: false, startPositionVod: 0)
+            let assetConfiguration = PlaybackAssetConfiguration(playbackOptions: playbackOptions, playbackUiConfiguration: playbackControlsConfiguration)
+         
+            handler.session.load(settings: CustomPlayerSettings.default, assetConfiguration: assetConfiguration)
+            self.sessionHandler = handler
+        case .failure:
+            self.sessionHandler = nil
         }
     }
-}
-
-// MARK: - Debug and log received.
-private extension PlayerDetailsView {
-    private func logReceived(message: SRAVDebugLoggerModelType) {
-        print("Demo received log: \(message)")
+    
+    private func cancelCurrentSession() {
+        sessionHandler?.destroy()
+        sessionHandler = nil
     }
 }

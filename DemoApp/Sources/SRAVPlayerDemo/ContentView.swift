@@ -8,6 +8,8 @@
 import SwiftUI
 
 import SRAVPlayerSDK
+import SRAVPlayerNPAWPlugin
+import SRAVPlayerChromecastPlugin
 
 struct DemoSettings {
     let themeComparison: Bool
@@ -21,77 +23,117 @@ struct DemoSettings {
     }
 }
 
-struct ContentView: View {
-    @State private var viewModel: SRAVPlayerViewModel?
-    let settings: SRAVPlayerSettingsModel
-    let demoSettings: DemoSettings
-    let customUISettings: SettingsModel
-    let streamUrl: String
-    
+struct ContentView: ChromecastScreenView, View {
+    @Environment(\.playerSDK) private var playerSDK
+    @Environment(\.chromecastPlugin) private var chromecastPlugin
+
+    @StateObject private var viewModel: ContentViewModel
+
+    init(
+        orientationConfiguration: PlayerOrientationConfiguration,
+        demoSettings: DemoSettings,
+        customUISettings: SettingsModel,
+        streamSource: DemoStreamOption
+    ) {
+        _viewModel = StateObject(
+            wrappedValue: ContentViewModel(
+                orientationConfiguration: orientationConfiguration,
+                demoSettings: demoSettings,
+                customUISettings: customUISettings,
+                streamSource: streamSource
+            )
+        )
+    }
+
     var body: some View {
         VStack {
-            if let viewModel = viewModel {
-                if customUISettings.shouldUseCustomOverviewLayerView {
-                    SRAVPlayerView(viewModel: viewModel, controlContentProvider: CustomControlContentProvider(useCustomControls: customUISettings.useCustomControlContentProvider), layerProvider: CustomPlayerLayerProvider(settings: customUISettings))
-                        .frame(maxWidth: .infinity)
-                        .aspectRatio(16/9, contentMode: .fit)
-                        .padding(.top)
-                } else if customUISettings.useCustomControlContentProvider {
-                    SRAVPlayerView(viewModel: viewModel, controlContentProvider: CustomControlContentProvider(useCustomControls: customUISettings.useCustomControlContentProvider))
-                        .frame(maxWidth: .infinity)
-                        .aspectRatio(16/9, contentMode: .fit)
-                        .padding(.top)
+            if let sessionHandler = viewModel.sessionHandler {
+                if viewModel.customUISettings.shouldUseCustomOverviewLayerView {
+                    SRAVPlayerView(
+                        sessionHandler: sessionHandler,
+                        configuration: PlayerViewConfiguration(
+                            overlays: CustomPlayerViewOverlays(
+                                settings: viewModel.customUISettings,
+                                playerControls: viewModel.playerControls,
+                                onClose: {
+                                    viewModel.closePlayer()
+                                }
+                            ),
+                            actionConfiguration: PlayerActionConfiguration(
+                                onEndScreenItem: { item in
+                                    viewModel.playEndScreenItem(item)
+                                }
+                            ),
+                            streamingStatusRestrictedAccessConfiguration: viewModel.restrictedAccessConfiguration,
+                            orientationConfiguration: viewModel.orientationConfiguration
+                        )
+                    )
+                    .frame(maxWidth: .infinity)
+                    .aspectRatio(16/9, contentMode: .fit)
+                    .padding(.top)
+                } else if viewModel.customUISettings.useCustomPlayerControls {
+                    SRAVPlayerView(
+                        sessionHandler: sessionHandler,
+                        configuration: PlayerViewConfiguration(
+                            playerControls: viewModel.playerControls,
+                            orientationConfiguration: viewModel.orientationConfiguration
+                        )
+                    )
+                    .frame(maxWidth: .infinity)
+                    .aspectRatio(16/9, contentMode: .fit)
+                    .padding(.top)
                 } else {
-                    SRAVPlayerView(viewModel: viewModel)
+                    SRAVPlayerView(
+                        sessionHandler: sessionHandler,
+                        configuration: PlayerViewConfiguration(
+                            orientationConfiguration: viewModel.orientationConfiguration
+                        )
+                    )
                         .frame(maxWidth: .infinity)
                         .aspectRatio(16/9, contentMode: .fit)
                         .padding(.top)
                 }
-                
-                if demoSettings.themeComparison {
-                    SRAVPlayerView(viewModel: viewModel)
+
+                if viewModel.demoSettings.themeComparison {
+                    SRAVPlayerView(
+                        sessionHandler: sessionHandler,
+                        configuration: PlayerViewConfiguration(
+                            theme: PlayerTheme(),
+                            orientationConfiguration: viewModel.orientationConfiguration
+                        )
+                    )
                         .frame(maxWidth: .infinity)
                         .aspectRatio(16/9, contentMode: .fit)
                         .padding(.top)
-                        .theme(PlayerTheme())
                 }
                 
             }
         }
         .frame(maxHeight: .infinity, alignment: .top)
+        .toolbar {
+            if let chromecastPlugin {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    getCastButton(plugin: chromecastPlugin)
+                }
+            }
+        }
+        .presentCastMiniControllerWithConfig(screen: self, plugin: chromecastPlugin)
+        .presentCastDialogWithConfig(screen: self, plugin: chromecastPlugin)
+        .presentCastExpandedControllerWithConfig(screen: self, plugin: chromecastPlugin)
+        .sheet(item: $viewModel.restrictedAccessSheet) { sheet in
+            RestrictedAccessBottomSheet(sheet: sheet)
+        }
         .onAppear {
-
-            let debugConfiguration = SRAVDebugLoggerConfiguration(isEnabled: true, customLogger: logReceived)
-            let viewModel = SRAVPlayerViewModel(settings: settings, debugLoggingConfiguration: debugConfiguration)
-            self.viewModel = viewModel
-            
-            let playbackControlsConfiguration = PlaybackControlsConfiguration(controlsLayer: !customUISettings.hideControls,
-                                                                              progressBar: !customUISettings.hideSlider,
-                                                                              centerPlayButton: !customUISettings.hidePlayPauseToggle,
-                                                                              titleText: !customUISettings.hideTitle,
-                                                                              pictureInPicture: !customUISettings.hidePictureInPicture,
-                                                                              settingsMenu: !customUISettings.hideSettingsMenu,
-                                                                              fullscreenToggle: !customUISettings.hideFullscreenToggle,
-                                                                              replayButton: true,
-                                                                              remotePlayback: !customUISettings.hideRemotePlayback)
-            let assetConfiguration = PlaybackAssetConfiguration(enableAutoPlay: demoSettings.autoplay, playbackUiConfiguration: playbackControlsConfiguration)
-            self.viewModel?.play(urlString: streamUrl, assetConfiguration: assetConfiguration)
+            viewModel.onAppear(playerSDK: playerSDK)
         }
         .onDisappear {
-            self.viewModel?.destroy()
+            viewModel.onDisappear()
         }
-    }
-}
-
-// MARK: - Debug and log received.
-private extension ContentView {
-    private func logReceived(message: SRAVDebugLoggerModelType) {
-        print("Demo received log: \(message)")
     }
 }
 
 #Preview {
-    let settingsModel = SettingsModel(useCustomControlContentProvider: false,
+    let settingsModel = SettingsModel(useCustomPlayerControls: false,
                                       useCustomPlayerControlsLayerView: true,
                                       useCustomErrorLayerView: false,
                                       useCustomLoadingLayerView: true,
@@ -104,6 +146,5 @@ private extension ContentView {
                                       hideSettingsMenu: false,
                                       hideFullscreenToggle: false,
                                       hideRemotePlayback:false)
-    ContentView(settings: SRAVPlayerSettingsModel(), demoSettings: .init(themeComparison: false, forcePlayerError: false, autoplay: false), customUISettings:settingsModel, streamUrl: "")
+    ContentView(orientationConfiguration: .default, demoSettings: .init(themeComparison: false, forcePlayerError: false, autoplay: false), customUISettings:settingsModel, streamSource: StreamSource.defaultStream)
 }
-
